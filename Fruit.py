@@ -5,6 +5,8 @@ import pygwidgets
 
 
 # Fruit class
+# 변경 사항:
+# Fruit -> Coin, fruitType -> coinType
 class Fruit():
 
     def __init__(self, window, windowWidth, windowHeight, fruitType, points=15):

@@ -16,19 +16,24 @@ WINDOW_WIDTH = 500
 WINDOW_HEIGHT = 500
 FRAMES_PER_SECOND = 30
 N_PIXELS_TO_MOVE = 3
+PENGUIN_SPEED = 12  # Penguin's speed
 
 # 3 - Initialize the world
 pygame.init()
 window = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
 clock = pygame.time.Clock()  # set the speed (frames per second)
+pygame.display.set_caption('Penguin Coin to the moon!!')  # window name
 
 # 4 - Load assets: image(s), sounds, etc.
 oDisplay = pygwidgets.DisplayText(
     window, (WINDOW_WIDTH - 120, 10), '', fontSize=30)
 
 # 5 - Initialize variables
-oBasket = Basket(window, WINDOW_WIDTH, WINDOW_HEIGHT)
+oBasket = Penguin(window, WINDOW_WIDTH, WINDOW_HEIGHT, PENGUIN_SPEED)
 
+
+# change fruitFeatures to coin types
+# fruitFreatures -> coinFeatures (later)
 fruitFeatures = [["apple", 15], ["banana", 15], ["cherry", 15], [
     "grapes", 15], ["strawberry", 15], ["pear", -100]]
 fruitList = []

@@ -3,10 +3,11 @@ from pygame.locals import *
 import pygwidgets
 
 
-# Basket class
-class Basket():
+# Penguin class
+class Penguin():
 
-    def __init__(self, window, windowWidth, windowHeight, ):
+    def __init__(self, window, windowWidth, windowHeight, xSpeed=12):
+
         self.window = window  # remember the window, so we can draw later
         self.windowWidth = windowWidth
         self.windowHeight = windowHeight
@@ -26,21 +27,22 @@ class Basket():
         self.image.setLoc((self.x, self.y))
 
         # Choose speed in the x direction
-        self.xSpeed = 12
+        self.xSpeed = xSpeed
 
     def move(self, leftOrRight):
         # add code here to move the basket and restrict it to stay in the window
         if leftOrRight == "left":
-            self.x = self.x - self.xSpeed if (self.x - self.xSpeed >= 0) else(self.x)
+            self.x = self.x - \
+                self.xSpeed if (self.x - self.xSpeed >= 0) else(self.x)
         else:
-            self.x = self.x + self.xSpeed if (self.x + self.xSpeed <= self.maxX) else(self.x)
+            self.x = self.x + \
+                self.xSpeed if (self.x + self.xSpeed <= self.maxX) else(self.x)
 
         self.image.setLoc((self.x, self.y))
 
     def getRect(self):
         myRect = pygame.Rect(self.x, self.y, self.width, self.height)
         return myRect
-
 
     def draw(self):
         self.image.draw()
