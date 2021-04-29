@@ -4,8 +4,8 @@
 import pygame
 from pygame.locals import *
 import sys
-from Fruit import *  # bring in the Fruit class code
-from Basket import *  # bring in the Basket class code
+from Fruit import *  # bring in the Fruit class code  (Fruit -> Coin)
+from Penguin import *  # bring in the Penguin class code
 import pygwidgets
 
 # 2 - Define constants
@@ -16,19 +16,27 @@ WINDOW_WIDTH = 500
 WINDOW_HEIGHT = 500
 FRAMES_PER_SECOND = 30
 N_PIXELS_TO_MOVE = 3
+PENGUIN_IMAGES_PATH = 'walk_edit_images/'  # penguin sprite images path
+PENGUIN_SPEED = 12  # Penguin's speed
 
 # 3 - Initialize the world
 pygame.init()
 window = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
 clock = pygame.time.Clock()  # set the speed (frames per second)
+pygame.display.set_caption('Penguin Coin to the moon!!')  # window name
 
 # 4 - Load assets: image(s), sounds, etc.
 oDisplay = pygwidgets.DisplayText(
     window, (WINDOW_WIDTH - 120, 10), '', fontSize=30)
 
 # 5 - Initialize variables
-oBasket = Basket(window, WINDOW_WIDTH, WINDOW_HEIGHT)
+# oBasket --> oPenguin with Penguin class
+oPenguin = Penguin(window, WINDOW_WIDTH, WINDOW_HEIGHT,
+                   PENGUIN_IMAGES_PATH, PENGUIN_SPEED)
 
+
+# should change fruitFeatures to coin types
+# should change fruitFreatures -> coinFeatures
 fruitFeatures = [["apple", 15], ["banana", 15], ["cherry", 15], [
     "grapes", 15], ["strawberry", 15], ["pear", -100]]
 fruitList = []
@@ -63,19 +71,19 @@ while True:
     keyPressedList = pygame.key.get_pressed()
 
     if keyPressedList[pygame.K_LEFT]:  # moving left
-        oBasket.move('left')
+        oPenguin.move('left')
 
     if keyPressedList[pygame.K_RIGHT]:  # moving right
-        oBasket.move('right')
+        oPenguin.move('right')
 
     # 8 - Do any "per frame" actions
 
     for oFruit in fruitList:
         oFruit.update()  # tell each fruit to update itself
         fruitRect = oFruit.getRect()
-        basketRect = oBasket.getRect()
+        basketRect = oPenguin.getRect()
         if basketRect.colliderect(fruitRect):
-            print(f'{oFruit.fruitType} has collided with the basket')
+            print(f'{oFruit.fruitType} has collided with the Penguin')
             oFruit.reset()
             score += oFruit.points
 
@@ -89,7 +97,7 @@ while True:
         oFruit.draw()   # tell each ball to draw itself
 
     oRestartButton.draw()
-    oBasket.draw()
+    oPenguin.draw()
     oDisplay.draw()
 
     # 11 - Update the screen

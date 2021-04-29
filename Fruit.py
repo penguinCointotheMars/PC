@@ -4,7 +4,9 @@ import random
 import pygwidgets
 
 
-# Fruit class
+# Coin class
+# should change Fruit -> Coin, fruitType -> coinType
+# should add items (cloud, double etc...)
 class Fruit():
 
     def __init__(self, window, windowWidth, windowHeight, fruitType, points=15):
