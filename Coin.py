@@ -5,18 +5,20 @@ import pygwidgets
 
 
 # Coin class
-# should change Fruit -> Coin, fruitType -> coinType
-# should add items (cloud, double etc...)
-class Fruit():
+class Coin():
 
-    def __init__(self, window, windowWidth, windowHeight, fruitType, points=15):
+    def __init__(self, window, windowWidth, windowHeight, coinType, points=15):
         self.points = points
-        self.fruitType = fruitType
+        self.Type = coinType
         self.window = window  # remember the window, so we can draw later
         self.windowWidth = windowWidth
         self.windowHeight = windowHeight
+
+        # store same coin image, should replace to display sprite sheets
         self.image = pygwidgets.Image(
-            window, (0, 0), f"images/{fruitType}.png")
+            window, (0, 0), f"coin_images/{coinType}.png")
+        # 이미지가 너무 커서 임시로 작게 만듬 (추후 해상도 낮춰서 적용)
+        self.image.scale(10, scaleFromCenter=True)
 
         self.points = points
         # A rect is made up of [x, y, width, height]

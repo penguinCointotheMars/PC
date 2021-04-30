@@ -1,10 +1,10 @@
-# Catch the fruit
+
 
 # 1 - Import packages
 import pygame
 from pygame.locals import *
 import sys
-from Fruit import *  # bring in the Fruit class code  (Fruit -> Coin)
+from Coin import *  # bring in the Coin class code
 from Penguin import *  # bring in the Penguin class code
 import pygwidgets
 
@@ -18,6 +18,8 @@ FRAMES_PER_SECOND = 30
 N_PIXELS_TO_MOVE = 3
 PENGUIN_IMAGES_PATH = 'walk_edit_images/'  # penguin sprite images path
 PENGUIN_SPEED = 12  # Penguin's speed
+COIN_POINT = 15  # point per coin, can be changed with coin price
+OBJECT_NUMBERS = 10  # the number of dropping objects
 
 # 3 - Initialize the world
 pygame.init()
@@ -30,16 +32,14 @@ oDisplay = pygwidgets.DisplayText(
     window, (WINDOW_WIDTH - 120, 10), '', fontSize=30)
 
 # 5 - Initialize variables
-# oBasket --> oPenguin with Penguin class
 oPenguin = Penguin(window, WINDOW_WIDTH, WINDOW_HEIGHT,
                    PENGUIN_IMAGES_PATH, PENGUIN_SPEED)
 
 
-# should change fruitFeatures to coin types
-# should change fruitFreatures -> coinFeatures
-fruitFeatures = [["apple", 15], ["banana", 15], ["cherry", 15], [
-    "grapes", 15], ["strawberry", 15], ["pear", -100]]
-fruitList = []
+# coinFeatures : list of coin's features to decide images and points
+coinFeatures = [["coin", COIN_POINT], ]
+# objectList : list of coins and clouds and items, etc... with cloud, item classes
+objectList = []
 
 oRestartButton = pygwidgets.TextButton(window, (5, 5), 'Restart')
 
@@ -48,11 +48,12 @@ score = 0
 
 # 6 - Loop forever
 while True:
-    if len(fruitList) <= 10:
-        fruitNumber = random.randint(0, 5)
-        oFruit = Fruit(window, WINDOW_WIDTH, WINDOW_HEIGHT,
-                       fruitFeatures[fruitNumber][0], fruitFeatures[fruitNumber][1])
-        fruitList.append(oFruit)
+    if len(objectList) <= OBJECT_NUMBERS:
+        coinNumber = random.randint(0, len(coinFeatures) - 1)
+        oCoin = Coin(window, WINDOW_WIDTH, WINDOW_HEIGHT,
+                     coinFeatures[coinNumber][0], coinFeatures[coinNumber][1])
+        objectList.append(oCoin)
+        # To do : should add clouds, items objects to objectList
 
     # 7 - Check for and handle events
     for event in pygame.event.get():
@@ -63,7 +64,7 @@ while True:
         if oRestartButton.handleEvent(event):  # ckicked on the Restart button
             print('User pressed the Restart button')
             score = 0
-            fruitList.clear()
+            objectList.clear()
 
     # Add "continuous mode" code here to check for left or right arrow keys
     # If you get one, tell the basket to move itself appropriately
@@ -78,14 +79,14 @@ while True:
 
     # 8 - Do any "per frame" actions
 
-    for oFruit in fruitList:
-        oFruit.update()  # tell each fruit to update itself
-        fruitRect = oFruit.getRect()
+    for oObject in objectList:
+        oObject.update()  # tell each object to update itself
+        objectRect = oObject.getRect()
         basketRect = oPenguin.getRect()
-        if basketRect.colliderect(fruitRect):
-            print(f'{oFruit.fruitType} has collided with the Penguin')
-            oFruit.reset()
-            score += oFruit.points
+        if basketRect.colliderect(objectRect):
+            print(f'{oObject.Type} has collided with the Penguin')
+            oObject.reset()
+            score += oObject.points
 
     oDisplay.setValue('Score:' + str(score))
 
@@ -93,8 +94,8 @@ while True:
     window.fill(LIME)
 
     # 10 - Draw the screen elements
-    for oFruit in fruitList:
-        oFruit.draw()   # tell each ball to draw itself
+    for oObject in objectList:
+        oObject.draw()   # tell each ball to draw itself
 
     oRestartButton.draw()
     oPenguin.draw()
