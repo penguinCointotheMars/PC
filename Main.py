@@ -22,6 +22,7 @@ PENGUIN_SPEED = 12  # Penguin's speed
 COIN_POINT = 15  # point per coin, can be changed with coin price
 OBJECT_NUMBERS = 10  # the number of dropping objects
 MUSIC_PATH = 'Music/'  # the path of music tracks
+COLLISION_TIME_DELAY = 100
 
 # 3 - Initialize the world
 pygame.init()
@@ -45,7 +46,6 @@ oMusic = Music(MUSIC_PATH, 'stage1_BGM.mp3')
 coinFeatures = [["coin", COIN_POINT], ]
 # objectList : list of coins and clouds and items, etc... with cloud, item classes
 objectList = []
-
 oRestartButton = pygwidgets.TextButton(window, (5, 5), 'Restart')
 
 score = 0
@@ -53,9 +53,6 @@ stage = 1
 
 # stage1 BGM play
 oMusic.play()
-# oMusic.replace('stage2_BGM.mp3')
-# oMusic.play()
-
 
 # 6 - Loop forever
 while True:
@@ -77,6 +74,7 @@ while True:
             score = 0
             objectList.clear()
 
+    # BGM settings
     # change BGM with stages
     # 임시로 정해놓은 조건임.
     if score >= 200 and stage == 1:
@@ -104,10 +102,16 @@ while True:
         oObject.update()  # tell each object to update itself
         objectRect = oObject.getRect()
         basketRect = oPenguin.getRect()
-        if basketRect.colliderect(objectRect):
+        if basketRect.colliderect(objectRect) and oObject.collision_time == 0:
+
             print(f'{oObject.Type} has collided with the Penguin')
-            oObject.reset()
+
             score += oObject.points
+            oObject.collide(pygame.time.get_ticks())
+
+        elif oObject.collision_time != 0 and oObject.disappear(pygame.time.get_ticks(), COLLISION_TIME_DELAY) == True:
+            objectList.remove(oObject)
+            oObject.reset()
 
     oDisplay.setValue('Score:' + str(score))
 

@@ -13,13 +13,13 @@ class Coin():
         self.window = window  # remember the window, so we can draw later
         self.windowWidth = windowWidth
         self.windowHeight = windowHeight
+        self.collision_time = 0  # store collision time
 
         # store same coin image, should replace to display sprite sheets
         self.image = pygwidgets.Image(
             window, (0, 0), f"coin_images/{coinType}.png")
         # 이미지가 너무 커서 임시로 작게 만듬 (추후 해상도 낮춰서 적용)
         self.image.scale(10, scaleFromCenter=True)
-
         self.points = points
         # A rect is made up of [x, y, width, height]
         startingRect = self.image.getRect()
@@ -52,3 +52,14 @@ class Coin():
 
     def draw(self):
         self.image.draw()
+
+    def collide(self, collision_time):
+        self.collision_time = collision_time
+
+    def disappear(self, keep_time, time_delay):
+        self.keep_time = keep_time  # get keep_time
+        # when time is delayed after collision, return True
+        if (self.keep_time - self.collision_time) >= time_delay:
+            return True
+        else:
+            return False
