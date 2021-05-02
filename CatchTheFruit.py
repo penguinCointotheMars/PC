@@ -7,10 +7,14 @@ import sys
 from Fruit import *  # bring in the Fruit class code
 from Basket import *  # bring in the Basket class code
 import pygwidgets
+import threading
+import time
+from datetime import datetime
+import requests
 
 # 2 - Define constants
 BLACK = (0, 0, 0)
-LIME = (0, 255, 0)
+BLUE = (0, 0, 205)
 WHITE = (255, 255, 255)
 WINDOW_WIDTH = 500
 WINDOW_HEIGHT = 500
@@ -37,6 +41,48 @@ oRestartButton = pygwidgets.TextButton(window, (5, 5), 'Restart')
 
 score = 0
 
+stage = 1
+coin = []
+carbon = 0
+
+def carbon_emission_update():
+    url = "https://daily-atmosphere-carbon-dioxide-concentration.p.rapidapi.com/api/co2-api"
+
+    headers = {
+        'x-rapidapi-key': "7aaa41456emshcba46ed7902daa5p1bbe7djsn5b1827a7a2e7",
+        'x-rapidapi-host': "daily-atmosphere-carbon-dioxide-concentration.p.rapidapi.com"
+    }
+    while True:
+        response = requests.request("GET", url, headers=headers)
+        u = response.json()
+        h = response.text
+        #print(u["co2"][0]["trend"])
+        print(len(u["co2"])) #3773 items
+
+        print("carbon_emission" + h)
+        time.sleep(2)
+
+
+y = threading.Thread(target=carbon_emission_update, args=())
+y.start()
+
+
+def coin_price_update():
+    global coin
+    url = "https://api.coinpaprika.com/v1/tickers/doge-dogecoin"
+
+    while True:
+        response = requests.request("GET", url)
+        u = response.json()
+        coin.append(u['quotes']['USD']['price'])
+
+        if len(coin) > 10:
+            coin = coin[1:]
+        time.sleep(1)
+
+
+x = threading.Thread(target=coin_price_update, args=())
+x.start()
 
 # 6 - Loop forever
 while True:
@@ -82,7 +128,25 @@ while True:
     oDisplay.setValue('Score:' + str(score))
 
     # 9 - Clear the screen before drawing it again
-    window.fill(LIME)
+    window.fill(BLUE)
+
+    print(coin)
+
+    if score > 100:
+        graphStartY = WINDOW_HEIGHT / 2
+
+        if len(coin) >= 2:
+            coinPrev = coin[0]
+            prevX = 0
+            step = WINDOW_WIDTH / len(coin)
+
+            for i in range(0, len(coin)):
+                x = i * step
+                coinNow = coin[i]
+                #TODO: scale coinprice to visualize the price
+                pygame.draw.line(window, BLACK, (prevX, graphStartY + coinPrev), (x, graphStartY + coinNow), 1)
+                coinPrev = coinNow
+                prevX = x
 
     # 10 - Draw the screen elements
     for oFruit in fruitList:
