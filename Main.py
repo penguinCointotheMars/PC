@@ -13,8 +13,8 @@ import pygwidgets
 BLACK = (0, 0, 0)
 LIME = (0, 255, 0)
 WHITE = (255, 255, 255)
-WINDOW_WIDTH = 500
-WINDOW_HEIGHT = 500
+WINDOW_WIDTH = 1000
+WINDOW_HEIGHT = 1000
 FRAMES_PER_SECOND = 30
 N_PIXELS_TO_MOVE = 3
 PENGUIN_IMAGES_PATH = 'walk_edit_images/'  # penguin sprite images path
