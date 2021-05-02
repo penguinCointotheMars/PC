@@ -6,6 +6,7 @@ from pygame.locals import *
 import sys
 from Coin import *  # bring in the Coin class code
 from Penguin import *  # bring in the Penguin class code
+from Music import *  # bring in the Music class code
 import pygwidgets
 
 # 2 - Define constants
@@ -20,6 +21,7 @@ PENGUIN_IMAGES_PATH = 'walk_edit_images/'  # penguin sprite images path
 PENGUIN_SPEED = 12  # Penguin's speed
 COIN_POINT = 15  # point per coin, can be changed with coin price
 OBJECT_NUMBERS = 10  # the number of dropping objects
+MUSIC_PATH = 'Music/'  # the path of music tracks
 
 # 3 - Initialize the world
 pygame.init()
@@ -35,6 +37,9 @@ oDisplay = pygwidgets.DisplayText(
 oPenguin = Penguin(window, WINDOW_WIDTH, WINDOW_HEIGHT,
                    PENGUIN_IMAGES_PATH, PENGUIN_SPEED)
 
+# Music objects to play BGM
+oMusic = Music(MUSIC_PATH, 'stage1_BGM.mp3')
+
 
 # coinFeatures : list of coin's features to decide images and points
 coinFeatures = [["coin", COIN_POINT], ]
@@ -44,6 +49,12 @@ objectList = []
 oRestartButton = pygwidgets.TextButton(window, (5, 5), 'Restart')
 
 score = 0
+stage = 1
+
+# stage1 BGM play
+oMusic.play()
+# oMusic.replace('stage2_BGM.mp3')
+# oMusic.play()
 
 
 # 6 - Loop forever
@@ -66,9 +77,19 @@ while True:
             score = 0
             objectList.clear()
 
+    # change BGM with stages
+    # 임시로 정해놓은 조건임.
+    if score >= 200 and stage == 1:
+        stage = 2
+        oMusic.replace('stage2_BGM.mp3')
+
+    elif score >= 400 and stage == 2:
+        stage = 3
+        oMusic.replace('stage3_BGM.mp3')
+
     # Add "continuous mode" code here to check for left or right arrow keys
     # If you get one, tell the basket to move itself appropriately
-        # Check for user pressing keys
+    # Check for user pressing keys
     keyPressedList = pygame.key.get_pressed()
 
     if keyPressedList[pygame.K_LEFT]:  # moving left
