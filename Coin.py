@@ -7,7 +7,7 @@ import pygwidgets
 # Coin class
 class Coin():
 
-    def __init__(self, window, windowWidth, windowHeight, coinType, points=15):
+    def __init__(self, window, windowWidth, windowHeight, coinType, points=15, price=6):
         self.points = points
         self.Type = coinType
         self.window = window  # remember the window, so we can draw later
@@ -27,7 +27,8 @@ class Coin():
         self.height = startingRect[3]  # height
 
         # Choose a random speed in the y direction
-        self.ySpeed = random.randrange(5, 9)
+        #self.ySpeed = random.randrange(5, 9)
+        self.ySpeed = price
         self.maxX = self.windowWidth - self.width
         self.reset()
 

@@ -1,19 +1,22 @@
 # 1 - Import packages
-import pygame
-import requests
-from pygame.locals import *
 import sys
-from Coin import *  # bring in the Coin class code
-from Penguin import *  # bring in the Penguin class code
-from Music import *  # bring in the Music class code
+
+import requests
+
 import pygwidgets
+from Coin import *  # bring in the Coin class code
+from Music import *  # bring in the Music class code
+from Penguin import *  # bring in the Penguin class code
+
+import threading
+import time
 
 # 2 - Define constants
 BLACK = (0, 0, 0)
 BLUE = (0, 0, 205)
 WHITE = (255, 255, 255)
-WINDOW_WIDTH = 500
-WINDOW_HEIGHT = 500
+WINDOW_WIDTH = 1000
+WINDOW_HEIGHT = 1000
 FRAMES_PER_SECOND = 30
 N_PIXELS_TO_MOVE = 3
 PENGUIN_IMAGES_PATH = 'walk_edit_images/'  # penguin sprite images path
@@ -126,9 +129,11 @@ while True:
     # BGM settings
     # change BGM with stages
     # 임시로 정해놓은 조건임.
-    if score >= 200 and stage == 1:
-        oMusic.replace('stage3_BGM.mp3')
+    if score >= 20 and stage == 1:
+        oMusic.replace('stage2_BGM.mp3')
+        stage = 2
 
+    if stage >= 2:
         graphStartY = WINDOW_HEIGHT / 2
 
         coinPrev = coin[0]
@@ -154,20 +159,18 @@ while True:
             coinPrev = coinNow
             prevX = x
 
-        if (score >= 4000) : stage = 2
 
-
-
-    elif score >= 4000 and stage == 2:
-
+    if score >= 400 and stage == 2:
         oMusic.replace('stage3_BGM.mp3')
+        stage = 3
 
+    if stage == 3 :
         for i in range(0, len(carbon)):
             #print(str(carbon[i]))
             oCarbon.setValue('CO2:    ' + str(carbon[i]) + '   ppm')
             oCarbon.draw()
 
-        if score > 50000: stage = 3
+    if score > 5000: stage = 4
 
     # Add "continuous mode" code here to check for left or right arrow keys
     # If you get one, tell the basket to move itself appropriately
