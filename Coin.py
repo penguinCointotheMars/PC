@@ -31,6 +31,9 @@ class Coin():
         self.maxX = self.windowWidth - self.width
         self.reset()
 
+        # Choose a random speed of rotation
+        self.rSpeed = random.randrange(-15, 15)
+
     def reset(self):
         # Pick a random starting position
         self.x = random.randrange(0, self.maxX)
@@ -42,9 +45,17 @@ class Coin():
         if self.y > self.windowHeight:
             self.reset()
 
+        # Rotate Coin
+        before_rot = self.image.getRect()
+        self.image.rotate(self.rSpeed)
+        after_rot = self.image.getRect()
+        self.x = before_rot[0] - ((after_rot[2] - before_rot[2])/2)
+        self.y = before_rot[1] - ((after_rot[3] - before_rot[3])/2)
+
         # move location
         self.y = self.y + self.ySpeed
         self.image.setLoc((self.x, self.y))
+
 
     def getRect(self):
         myRect = pygame.Rect(self.x, self.y, self.width, self.height)
