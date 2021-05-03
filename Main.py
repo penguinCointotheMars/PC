@@ -1,15 +1,12 @@
-# Catch the fruit
-
 # 1 - Import packages
 import pygame
+import requests
 from pygame.locals import *
 import sys
-from Fruit import *  # bring in the Fruit class code
-from Basket import *  # bring in the Basket class code
+from Coin import *  # bring in the Coin class code
+from Penguin import *  # bring in the Penguin class code
+from Music import *  # bring in the Music class code
 import pygwidgets
-import threading
-import time
-import requests
 
 # 2 - Define constants
 BLACK = (0, 0, 0)
@@ -19,11 +16,18 @@ WINDOW_WIDTH = 500
 WINDOW_HEIGHT = 500
 FRAMES_PER_SECOND = 30
 N_PIXELS_TO_MOVE = 3
+PENGUIN_IMAGES_PATH = 'walk_edit_images/'  # penguin sprite images path
+PENGUIN_SPEED = 12  # Penguin's speed
+COIN_POINT = 15  # point per coin, can be changed with coin price
+OBJECT_NUMBERS = 10  # the number of dropping objects
+MUSIC_PATH = 'Music/'  # the path of music tracks
+COLLISION_TIME_DELAY = 100
 
 # 3 - Initialize the world
 pygame.init()
 window = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
 clock = pygame.time.Clock()  # set the speed (frames per second)
+pygame.display.set_caption('Penguin Coin to the moon!!')  # window name
 
 # 4 - Load assets: image(s), sounds, etc.
 oDisplay = pygwidgets.DisplayText(
@@ -32,22 +36,30 @@ oDisplay = pygwidgets.DisplayText(
 oCarbon = pygwidgets.DisplayText(
     window, (WINDOW_WIDTH - 200, 100), '', fontSize=10)
 
+
 # 5 - Initialize variables
-oBasket = Basket(window, WINDOW_WIDTH, WINDOW_HEIGHT)
+oPenguin = Penguin(window, WINDOW_WIDTH, WINDOW_HEIGHT,
+                   PENGUIN_IMAGES_PATH, PENGUIN_SPEED)
 
-fruitFeatures = [["apple", 15], ["banana", 15], ["cherry", 15], [
-    "grapes", 15], ["strawberry", 15], ["pear", -100]]
-fruitList = []
+# Music objects to play BGM
+oMusic = Music(MUSIC_PATH, 'stage1_BGM.mp3')
 
+
+# coinFeatures : list of coin's features to decide images and points
+coinFeatures = [["coin", COIN_POINT], ]
+# objectList : list of coins and clouds and items, etc... with cloud, item classes
+objectList = []
 oRestartButton = pygwidgets.TextButton(window, (5, 5), 'Restart')
 
 score = 0
-
 stage = 1
 coin = []
 coinMin = 0
 coinMax = 0
 carbon = 0
+
+# stage1 BGM play
+oMusic.play()
 
 
 def carbon_emission_update():
@@ -62,7 +74,6 @@ def carbon_emission_update():
     u = response.json()
     for i in range(0, len(u['co2'])):
         carbon = u['co2'][i]['trend']
-
 
 def coin_price_update():
     global coin, coinMin, coinMax
@@ -88,11 +99,12 @@ frameCounter = 0
 while True:
     frameCounter = (frameCounter + 1) % 1200
 
-    if len(fruitList) <= 10:
-        fruitNumber = random.randint(0, 5)
-        oFruit = Fruit(window, WINDOW_WIDTH, WINDOW_HEIGHT,
-                       fruitFeatures[fruitNumber][0], fruitFeatures[fruitNumber][1])
-        fruitList.append(oFruit)
+    if len(objectList) <= OBJECT_NUMBERS:
+        coinNumber = random.randint(0, len(coinFeatures) - 1)
+        oCoin = Coin(window, WINDOW_WIDTH, WINDOW_HEIGHT,
+                     coinFeatures[coinNumber][0], coinFeatures[coinNumber][1])
+        objectList.append(oCoin)
+        # To do : should add clouds, items objects to objectList
 
     # 7 - Check for and handle events
     for event in pygame.event.get():
@@ -103,36 +115,20 @@ while True:
         if oRestartButton.handleEvent(event):  # ckicked on the Restart button
             print('User pressed the Restart button')
             score = 0
-            fruitList.clear()
+            objectList.clear()
 
-    # Add "continuous mode" code here to check for left or right arrow keys
-    # If you get one, tell the basket to move itself appropriately
-    # Check for user pressing keys
-    keyPressedList = pygame.key.get_pressed()
-
-    if keyPressedList[pygame.K_LEFT]:  # moving left
-        oBasket.move('left')
-
-    if keyPressedList[pygame.K_RIGHT]:  # moving right
-        oBasket.move('right')
-
-    # 8 - Do any "per frame" actions
-
-    for oFruit in fruitList:
-        oFruit.update()  # tell each fruit to update itself
-        fruitRect = oFruit.getRect()
-        basketRect = oBasket.getRect()
-        if basketRect.colliderect(fruitRect):
-            print(f'{oFruit.fruitType} has collided with the basket')
-            oFruit.reset()
-            score += oFruit.points
 
     oDisplay.setValue('Score:' + str(score))
 
     # 9 - Clear the screen before drawing it again
     window.fill(BLUE)
 
-    if score > 10:
+    # BGM settings
+    # change BGM with stages
+    # 임시로 정해놓은 조건임.
+    if score >= 200 and stage == 1:
+        oMusic.replace('stage3_BGM.mp3')
+
         graphStartY = WINDOW_HEIGHT / 2
 
         coinPrev = coin[0]
@@ -158,19 +154,55 @@ while True:
             coinPrev = coinNow
             prevX = x
 
-    if score > 50:
-        #TODO :
+        if (score >= 4000) : stage = 2
+
+
+
+    elif score >= 4000 and stage == 2:
+
+        oMusic.replace('stage3_BGM.mp3')
+
         for i in range(0, len(carbon)):
-            print(str(carbon[i]))
+            #print(str(carbon[i]))
             oCarbon.setValue('CO2:    ' + str(carbon[i]) + '   ppm')
             oCarbon.draw()
 
+        if score > 50000: stage = 3
+
+    # Add "continuous mode" code here to check for left or right arrow keys
+    # If you get one, tell the basket to move itself appropriately
+    # Check for user pressing keys
+    keyPressedList = pygame.key.get_pressed()
+
+    if keyPressedList[pygame.K_LEFT]:  # moving left
+        oPenguin.move('left')
+
+    if keyPressedList[pygame.K_RIGHT]:  # moving right
+        oPenguin.move('right')
+
+    # 8 - Do any "per frame" actions
+
+    for oObject in objectList:
+        oObject.update()  # tell each object to update itself
+        objectRect = oObject.getRect()
+        basketRect = oPenguin.getRect()
+        if basketRect.colliderect(objectRect) and oObject.collision_time == 0:
+
+            print(f'{oObject.Type} has collided with the Penguin')
+
+            score += oObject.points
+            oObject.collide(pygame.time.get_ticks())
+
+        elif oObject.collision_time != 0 and oObject.disappear(pygame.time.get_ticks(), COLLISION_TIME_DELAY) == True:
+            objectList.remove(oObject)
+            oObject.reset()
+
     # 10 - Draw the screen elements
-    for oFruit in fruitList:
-        oFruit.draw()  # tell each ball to draw itself
+    for oObject in objectList:
+        oObject.draw()   # tell each ball to draw itself
 
     oRestartButton.draw()
-    oBasket.draw()
+    oPenguin.draw()
     oDisplay.draw()
 
     # 11 - Update the screen
