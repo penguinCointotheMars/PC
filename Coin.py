@@ -5,7 +5,7 @@ import pygwidgets
 
 
 # Coin class
-class Coin():
+class Coin:
 
     def __init__(self, window, windowWidth, windowHeight, coinType, points=15, price=6):
         self.points = points

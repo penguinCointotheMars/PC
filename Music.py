@@ -1,7 +1,7 @@
 import pygame
 
 
-class Music():
+class Music:
 
     def __init__(self, path, name):
         self.path = path

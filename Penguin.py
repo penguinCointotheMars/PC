@@ -4,7 +4,7 @@ import pygwidgets
 
 
 # Penguin class
-class Penguin():
+class Penguin:
 
     def __init__(self, window, windowWidth, windowHeight, path, xSpeed=12):
 
