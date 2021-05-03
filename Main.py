@@ -8,9 +8,6 @@ from Coin import *  # bring in the Coin class code
 from Music import *  # bring in the Music class code
 from Penguin import *  # bring in the Penguin class code
 
-import threading
-import time
-
 # 2 - Define constants
 BLACK = (0, 0, 0)
 BLUE = (0, 0, 205)
@@ -37,8 +34,7 @@ oDisplay = pygwidgets.DisplayText(
     window, (WINDOW_WIDTH - 120, 10), '', fontSize=30)
 
 oCarbon = pygwidgets.DisplayText(
-    window, (WINDOW_WIDTH - 200, 100), '', fontSize=10)
-
+    window, (WINDOW_WIDTH - 120, 100), '', fontSize=30)
 
 # 5 - Initialize variables
 oPenguin = Penguin(window, WINDOW_WIDTH, WINDOW_HEIGHT,
@@ -46,7 +42,6 @@ oPenguin = Penguin(window, WINDOW_WIDTH, WINDOW_HEIGHT,
 
 # Music objects to play BGM
 oMusic = Music(MUSIC_PATH, 'stage1_BGM.mp3')
-
 
 # coinFeatures : list of coin's features to decide images and points
 coinFeatures = [["coin", COIN_POINT], ]
@@ -97,10 +92,12 @@ coin_price_update()
 carbon_emission_update()
 
 frameCounter = 0
+carbonCounter = 0
 
 # 6 - Loop forever
 while True:
     frameCounter = (frameCounter + 1) % 1200
+    carbonCounter = (carbonCounter + 1) % 1200
 
     if len(objectList) <= OBJECT_NUMBERS:
         coinNumber = random.randint(0, len(coinFeatures) - 1)
@@ -119,7 +116,6 @@ while True:
             print('User pressed the Restart button')
             score = 0
             objectList.clear()
-
 
     oDisplay.setValue('Score:' + str(score))
 
@@ -156,18 +152,25 @@ while True:
             yPrevPosition = graphStartY - 50 + (coinPrevRatio * 200)
 
             pygame.draw.line(window, BLACK, (prevX, yPrevPosition), (x, yNowPosition), 1)
+
+            if coinPrev > coinNow:
+                oCoin.ySpeed = oCoin.ySpeed - 0.2
+            else:
+                oCoin.ySpeed = oCoin.ySpeed + 0.2
+
             coinPrev = coinNow
             prevX = x
 
-
-    if score >= 400 and stage == 2:
+    if score >= 200 and stage == 2:
         oMusic.replace('stage3_BGM.mp3')
         stage = 3
 
-    if stage == 3 :
+    if stage == 3:
+        currentRange = (carbonCounter / 1200) * len(carbon)
+
         for i in range(0, len(carbon)):
-            #print(str(carbon[i]))
-            oCarbon.setValue('CO2:    ' + str(carbon[i]) + '   ppm')
+            print(carbon[i])
+            oCarbon.setValue('CO2: ' + carbon[i] + ' ppm')
             oCarbon.draw()
 
     if score > 5000: stage = 4
@@ -202,7 +205,7 @@ while True:
 
     # 10 - Draw the screen elements
     for oObject in objectList:
-        oObject.draw()   # tell each ball to draw itself
+        oObject.draw()  # tell each ball to draw itself
 
     oRestartButton.draw()
     oPenguin.draw()
