@@ -45,7 +45,7 @@ class Coin():
         if self.y > self.windowHeight:
             self.reset()
 
-        # Rotate Coin
+        # Rotate Coin # Code Credit: Sohye Park 
         before_rot = self.image.getRect()
         self.image.rotate(self.rSpeed)
         after_rot = self.image.getRect()
