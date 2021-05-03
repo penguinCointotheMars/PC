@@ -30,6 +30,7 @@ oDisplay = pygwidgets.DisplayText(
     window, (WINDOW_WIDTH - 120, 10), '', fontSize=30)
 
 # 5 - Initialize variables
+# oWater water class for background
 # oBasket --> oPenguin with Penguin class
 oPenguin = Penguin(window, WINDOW_WIDTH, WINDOW_HEIGHT,
                    PENGUIN_IMAGES_PATH, PENGUIN_SPEED)

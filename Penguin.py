@@ -5,7 +5,7 @@ import pygwidgets
 
 # Penguin class
 class Penguin():
-
+    
     def __init__(self, window, windowWidth, windowHeight, path, xSpeed=12):
 
         self.window = window  # remember the window, so we can draw later
