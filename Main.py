@@ -1,5 +1,6 @@
 # 1 - Import packages
 import sys
+import time
 
 import requests
 
@@ -55,16 +56,21 @@ coinFeatures = [["coin", COIN_POINT], ]
 # objectList : list of coins and clouds and items, etc... with cloud, item classes
 objectList = []
 oRestartButton = pygwidgets.TextButton(window, (5, 5), 'Restart')
+# images betweem stages
+stage_1_to_2 = pygame.image.load('stage_images/stage2.jpeg')
+stage_2_to_3 = pygame.image.load('stage_images/stage3.jpeg')
 
+stage_transform1 = 'stage_images/stage2.jpeg'
+stage_transform2 = 'stage_images/stage3.jpeg'
+
+
+# constants
 score = 0
 stage = 1
 coin = []
 coinMin = 0
 coinMax = 0
 carbon = 0
-
-# stage1 BGM play
-oMusic.play()
 
 
 def carbon_emission_update():
@@ -103,6 +109,9 @@ carbon_emission_update()
 
 frameCounter = 0
 carbonCounter = 0
+# stage1 BGM play
+oMusic.play()
+
 
 # 6 - Loop forever
 while True:
@@ -136,8 +145,16 @@ while True:
     # change BGM with stages
     # 임시로 정해놓은 조건임.
     if score >= 20 and stage == 1:
-        oMusic.replace('stage2_BGM.mp3')
         stage = 2
+        oMusic.stop()
+
+        stage_image = pygwidgets.Image(
+            window, (0, 0), 'stage_images/stage2.jpeg')
+        stage_image.draw()
+        objectList.clear()
+        pygame.display.update()
+        time.sleep(5)
+        oMusic.replace('stage2_BGM.mp3')
 
     if stage >= 2:
         graphStartY = WINDOW_HEIGHT / 2
@@ -173,6 +190,14 @@ while True:
             prevX = x
 
     if score >= 200 and stage == 2:
+        oMusic.stop()
+
+        stage_image2 = pygwidgets.Image(
+            window, (0, 0), 'stage_images/stage3.jpeg')
+        stage_image2.draw()
+        objectList.clear()
+        pygame.display.update()
+        time.sleep(5)
         oMusic.replace('stage3_BGM.mp3')
         stage = 3
 
