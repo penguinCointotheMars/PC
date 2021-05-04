@@ -143,7 +143,10 @@ while True:
     # BGM settings
     # change BGM with stages
     # 임시로 정해놓은 조건임.
-    if score >= 100 and stage == 1:
+    # to do : score 음수루 전환
+    if score < -200:
+        pass
+    if score >= 500 and stage == 1:
         stage = 2
         oMusic.stop()
 
@@ -188,7 +191,7 @@ while True:
             coinPrev = coinNow
             prevX = x
 
-    if score >= 300 and stage == 2:
+    if score >= 1000 and stage == 2:
         oMusic.stop()
 
         stage_image2 = pygwidgets.Image(
@@ -246,7 +249,7 @@ while True:
     # 10 - Draw the screen elements
     for oObject in objectList:
         oObject.draw()  # tell each ball to draw itself
-    
+
     oCloud.draw()
     oRestartButton.draw()
     oPenguin.draw()
