@@ -9,6 +9,7 @@ from Coin import *  # bring in the Coin class code
 from Music import *  # bring in the Music class code
 from Penguin import *  # bring in the Penguin class code
 from Water import *  # bring in the Water class code
+from Cloud import *  # bring in the Cloud class code
 
 # 2 - Define constants
 BLACK = (0, 0, 0)
@@ -23,6 +24,8 @@ PENGUIN_IMAGES_PATH = 'walk_edit_images/'  # penguin sprite images path
 WATER_IMAGES_PATH = 'water_images/'  # iceberg images path
 MUSIC_PATH = 'Music/'  # the path of music tracks
 STAGE_IMAGE_PATH = 'stage_images'
+CLOUD_IMAGES_PATH = 'cloud_images/'
+
 # constants to play
 PENGUIN_SPEED = 12  # Penguin's speed
 PENGUIN_HEIGHT = 200
@@ -47,6 +50,8 @@ oCarbon = pygwidgets.DisplayText(
 oPenguin = Penguin(window, WINDOW_WIDTH, WINDOW_HEIGHT,
                    PENGUIN_IMAGES_PATH, PENGUIN_SPEED, PENGUIN_HEIGHT)
 oWater = Water(window, WINDOW_WIDTH, WINDOW_HEIGHT, WATER_IMAGES_PATH)
+
+oCloud = Cloud(window, WINDOW_WIDTH, WINDOW_HEIGHT, CLOUD_IMAGES_PATH)
 
 # Music objects to play BGM
 oMusic = Music(MUSIC_PATH, 'stage1_BGM.mp3')
@@ -138,7 +143,7 @@ while True:
     # BGM settings
     # change BGM with stages
     # 임시로 정해놓은 조건임.
-    if score >= 20 and stage == 1:
+    if score >= 100 and stage == 1:
         stage = 2
         oMusic.stop()
 
@@ -183,7 +188,7 @@ while True:
             coinPrev = coinNow
             prevX = x
 
-    if score >= 200 and stage == 2:
+    if score >= 300 and stage == 2:
         oMusic.stop()
 
         stage_image2 = pygwidgets.Image(
@@ -200,7 +205,7 @@ while True:
 
         for i in range(0, len(carbon)):
             # print(carbon[i])
-            oCarbon.setValue('CO2: ' + carbon[i] + ' ppm')
+            oCarbon.setValue('CO2: ' + carbon[i] + '    ppm')
             oCarbon.draw()
 
     if score > 5000:
@@ -231,6 +236,7 @@ while True:
             score += oObject.points
             oObject.collide(pygame.time.get_ticks())
             oWater.waterfill(score)
+            oCloud.cloudfill(score)
 
         elif oObject.collision_time != 0 and oObject.disappear(pygame.time.get_ticks(), COLLISION_TIME_DELAY) == True:
             objectList.remove(oObject)
@@ -240,7 +246,8 @@ while True:
     # 10 - Draw the screen elements
     for oObject in objectList:
         oObject.draw()  # tell each ball to draw itself
-
+    
+    oCloud.draw()
     oRestartButton.draw()
     oPenguin.draw()
     oDisplay.draw()
