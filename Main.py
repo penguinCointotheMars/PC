@@ -7,6 +7,7 @@ import pygwidgets
 from Coin import *  # bring in the Coin class code
 from Music import *  # bring in the Music class code
 from Penguin import *  # bring in the Penguin class code
+from Water import *  # bring in the Water class code
 
 # 2 - Define constants
 BLACK = (0, 0, 0)
@@ -16,11 +17,16 @@ WINDOW_WIDTH = 1000
 WINDOW_HEIGHT = 1000
 FRAMES_PER_SECOND = 30
 N_PIXELS_TO_MOVE = 3
+# source file paths
 PENGUIN_IMAGES_PATH = 'walk_edit_images/'  # penguin sprite images path
+WATER_IMAGES_PATH = 'water_images/'  # iceberg images path
+MUSIC_PATH = 'Music/'  # the path of music tracks
+STAGE_IMAGE_PATH = 'stage_images'
+# constants to play
 PENGUIN_SPEED = 12  # Penguin's speed
+PENGUIN_HEIGHT = 200
 COIN_POINT = 15  # point per coin, can be changed with coin price
 OBJECT_NUMBERS = 10  # the number of dropping objects
-MUSIC_PATH = 'Music/'  # the path of music tracks
 COLLISION_TIME_DELAY = 100
 
 # 3 - Initialize the world
@@ -38,7 +44,8 @@ oCarbon = pygwidgets.DisplayText(
 
 # 5 - Initialize variables
 oPenguin = Penguin(window, WINDOW_WIDTH, WINDOW_HEIGHT,
-                   PENGUIN_IMAGES_PATH, PENGUIN_SPEED)
+                   PENGUIN_IMAGES_PATH, PENGUIN_SPEED, PENGUIN_HEIGHT)
+oWater = Water(window, WINDOW_WIDTH, WINDOW_HEIGHT, WATER_IMAGES_PATH)
 
 # Music objects to play BGM
 oMusic = Music(MUSIC_PATH, 'stage1_BGM.mp3')
@@ -73,6 +80,7 @@ def carbon_emission_update():
     for i in range(0, len(u['co2'])):
         carbon = u['co2'][i]['trend']
 
+
 def coin_price_update():
     global coin, coinMin, coinMax
     url = "https://api.coinpaprika.com/v1/tickers/doge-dogecoin/historical?start=2021-05-01"
@@ -84,8 +92,10 @@ def coin_price_update():
 
     for i in range(0, len(u)):
         coin.append(u[i]['price'])
-        if coinMax < u[i]['price']: coinMax = u[i]['price']
-        if coinMin > u[i]['price']: coinMin = u[i]['price']
+        if coinMax < u[i]['price']:
+            coinMax = u[i]['price']
+        if coinMin > u[i]['price']:
+            coinMin = u[i]['price']
 
 
 coin_price_update()
@@ -151,7 +161,8 @@ while True:
             yNowPosition = graphStartY - 50 + (coinNowRatio * 200)
             yPrevPosition = graphStartY - 50 + (coinPrevRatio * 200)
 
-            pygame.draw.line(window, BLACK, (prevX, yPrevPosition), (x, yNowPosition), 1)
+            pygame.draw.line(
+                window, BLACK, (prevX, yPrevPosition), (x, yNowPosition), 1)
 
             if coinPrev > coinNow:
                 oCoin.ySpeed = oCoin.ySpeed - 0.2
@@ -169,11 +180,12 @@ while True:
         currentRange = (carbonCounter / 1200) * len(carbon)
 
         for i in range(0, len(carbon)):
-            print(carbon[i])
+            # print(carbon[i])
             oCarbon.setValue('CO2: ' + carbon[i] + ' ppm')
             oCarbon.draw()
 
-    if score > 5000: stage = 4
+    if score > 5000:
+        stage = 4
 
     # Add "continuous mode" code here to check for left or right arrow keys
     # If you get one, tell the basket to move itself appropriately
@@ -192,17 +204,20 @@ while True:
         oObject.update()  # tell each object to update itself
         objectRect = oObject.getRect()
         basketRect = oPenguin.getRect()
+        waterRect = oWater.getRect()
         if basketRect.colliderect(objectRect) and oObject.collision_time == 0:
 
             print(f'{oObject.Type} has collided with the Penguin')
 
             score += oObject.points
             oObject.collide(pygame.time.get_ticks())
+            oWater.waterfill(score)
 
         elif oObject.collision_time != 0 and oObject.disappear(pygame.time.get_ticks(), COLLISION_TIME_DELAY) == True:
             objectList.remove(oObject)
             oObject.reset()
 
+    oWater.draw()
     # 10 - Draw the screen elements
     for oObject in objectList:
         oObject.draw()  # tell each ball to draw itself
