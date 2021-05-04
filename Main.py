@@ -56,12 +56,6 @@ coinFeatures = [["coin", COIN_POINT], ]
 # objectList : list of coins and clouds and items, etc... with cloud, item classes
 objectList = []
 oRestartButton = pygwidgets.TextButton(window, (5, 5), 'Restart')
-# images betweem stages
-stage_1_to_2 = pygame.image.load('stage_images/stage2.jpeg')
-stage_2_to_3 = pygame.image.load('stage_images/stage3.jpeg')
-
-stage_transform1 = 'stage_images/stage2.jpeg'
-stage_transform2 = 'stage_images/stage3.jpeg'
 
 
 # constants
