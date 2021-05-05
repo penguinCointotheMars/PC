@@ -158,11 +158,13 @@ while True:
         oMusic.fadeout(2000)  # fade out
 
         stage_image = pygame.image.load('stage_images/stage2.jpeg')
+        S_width = stage_image.get_width()   #Used for putting picture in middle
+        S_height = stage_image.get_height() #Used for putting picture in middle
 
         for i in range(225):
             # background.fill((0,0,0))
             stage_image.set_alpha(i)
-            window.blit(stage_image, (0, 0))
+            window.blit(stage_image, ((WINDOW_WIDTH-S_width)/2, (WINDOW_HEIGHT-S_height)/2))
             pygame.display.flip()
             pygame.time.delay(20)
             pygame.display.update()
@@ -209,11 +211,13 @@ while True:
         oMusic.fadeout(2000)  # fade out
 
         stage_image = pygame.image.load('stage_images/stage3.jpeg')
+        S_width = stage_image.get_width()   #Used for putting picture in middle
+        S_height = stage_image.get_height() #Used for putting picture in middle
 
         for i in range(225):
             # background.fill((0,0,0))
             stage_image.set_alpha(i)
-            window.blit(stage_image, (0, 0))
+            window.blit(stage_image, ((WINDOW_WIDTH-S_width)/2, (WINDOW_HEIGHT-S_height)/2))
             pygame.display.flip()
             pygame.time.delay(20)
             pygame.display.update()
