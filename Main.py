@@ -141,6 +141,12 @@ oMusic.play()
 
 # 6 - Loop forever
 while True:
+
+    if stage >= 2 and score <= 0:
+
+        #TODO need to update with proper game over video or sign
+        continue
+
     frameCounter = (frameCounter + 1) % 1200
     carbonCounter = carbonCounter + 1
 
@@ -257,6 +263,7 @@ while True:
 
         stage = 3
 
+    #TODO 강무야 계산해줘!!!!!! ㅋㅋㅋ 클라우드 스테이지 어떻게 나눠야해? 점수별로?
     if stage == 3:
         print("score: " + str(score))
         score = score - float(carbon[carbonIndex]) * 0.01
@@ -271,9 +278,6 @@ while True:
 
     if score > STAGE_3:
         stage = 4
-
-    if score <= 0:
-        False
 
     # Add "continuous mode" code here to check for left or right arrow keys
     # If you get one, tell the basket to move itself appropriately
