@@ -27,7 +27,7 @@ class Water:
         self.halfHeight = self.height / 2
         self.halfWidth = self.width / 2
 
-        self.x = self.windowWidth - 900
+        self.x = (self.windowWidth -self.width)/2  #picture in middle
         self.y = windowHeight - self.height 
         self.maxX = self.windowWidth - self.width
         self.image.setLoc((self.x, self.y))
