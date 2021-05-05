@@ -23,3 +23,6 @@ class Music:
 
     def stop(self):
         pygame.mixer.music.stop()
+
+    def fadeout(self, time):
+        pygame.mixer.music.fadeout(time)

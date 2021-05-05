@@ -69,7 +69,7 @@ stage = 1
 coin = []
 coinMin = 0
 coinMax = 0
-carbon =[]
+carbon = []
 
 
 def carbon_emission_update():
@@ -151,16 +151,23 @@ while True:
     # to do : score 음수루 전환
     if score < -200:
         pass
-    if score >= 500 and stage == 1:
+    if score >= 100 and stage == 1:
         stage = 2
-        oMusic.stop()
+        oMusic.fadeout(2000)  # fade out
 
-        stage_image = pygwidgets.Image(
-            window, (0, 0), 'stage_images/stage2.jpeg')
-        stage_image.draw()
+        stage_image = pygame.image.load('stage_images/stage2.jpeg')
+
+        for i in range(225):
+            # background.fill((0,0,0))
+            stage_image.set_alpha(i)
+            window.blit(stage_image, (0, 0))
+            pygame.display.flip()
+            pygame.time.delay(20)
+            pygame.display.update()
+
         objectList.clear()
         pygame.display.update()
-        time.sleep(5)
+        pygame.time.delay(2000)
         oMusic.replace('stage2_BGM.mp3')
 
     if stage >= 2:
@@ -196,16 +203,24 @@ while True:
             coinPrev = coinNow
             prevX = x
 
-    if score >= 1000 and stage == 2:
-        oMusic.stop()
+    if score >= 200 and stage == 2:
+        oMusic.fadeout(2000)  # fade out
 
-        stage_image2 = pygwidgets.Image(
-            window, (0, 0), 'stage_images/stage3.jpeg')
-        stage_image2.draw()
+        stage_image = pygame.image.load('stage_images/stage3.jpeg')
+
+        for i in range(225):
+            # background.fill((0,0,0))
+            stage_image.set_alpha(i)
+            window.blit(stage_image, (0, 0))
+            pygame.display.flip()
+            pygame.time.delay(20)
+            pygame.display.update()
+
         objectList.clear()
         pygame.display.update()
-        time.sleep(5)
+        pygame.time.delay(2000)
         oMusic.replace('stage3_BGM.mp3')
+
         stage = 3
 
     if stage == 3:
