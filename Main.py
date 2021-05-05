@@ -138,6 +138,8 @@ while True:
         if oRestartButton.handleEvent(event):  # ckicked on the Restart button
             print('User pressed the Restart button')
             score = 0
+            stage = 1                           #stage back to start
+            oMusic.replace('stage1_BGM.mp3')    #Back to stage 1 music
             objectList.clear()
 
     oDisplay.setValue('Score:' + str(score))
