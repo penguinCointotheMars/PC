@@ -13,7 +13,7 @@ from Cloud import *  # bring in the Cloud class code
 
 # 2 - Define constants
 BLACK = (0, 0, 0)
-BLUE = (0, 0, 205)
+BLUE = (135, 206, 235)
 WHITE = (255, 255, 255)
 WINDOW_WIDTH = 1000
 WINDOW_HEIGHT = 1000
@@ -44,7 +44,7 @@ oDisplay = pygwidgets.DisplayText(
     window, (WINDOW_WIDTH - 120, 10), '', fontSize=30)
 
 oCarbon = pygwidgets.DisplayText(
-    window, (WINDOW_WIDTH - 120, 100), '', fontSize=30)
+    window, (5, 25), '', fontSize=30)
 
 # 5 - Initialize variables
 oPenguin = Penguin(window, WINDOW_WIDTH, WINDOW_HEIGHT,
@@ -69,7 +69,7 @@ stage = 1
 coin = []
 coinMin = 0
 coinMax = 0
-carbon = 0
+carbon =[]
 
 
 def carbon_emission_update():
@@ -83,7 +83,7 @@ def carbon_emission_update():
     response = requests.request("GET", url, headers=headers)
     u = response.json()
     for i in range(0, len(u['co2'])):
-        carbon = u['co2'][i]['trend']
+        carbon.append(u['co2'][i]['trend'])
 
 
 def coin_price_update():
@@ -108,6 +108,7 @@ carbon_emission_update()
 
 frameCounter = 0
 carbonCounter = 0
+carbonIndex = 0
 # stage1 BGM play
 oMusic.play()
 
@@ -115,7 +116,11 @@ oMusic.play()
 # 6 - Loop forever
 while True:
     frameCounter = (frameCounter + 1) % 1200
-    carbonCounter = (carbonCounter + 1) % 1200
+    carbonCounter = carbonCounter + 1
+
+    if carbonCounter > 60:
+        carbonIndex = (carbonIndex+1) % len(carbon)
+        carbonCounter = 0
 
     if len(objectList) <= OBJECT_NUMBERS:
         coinNumber = random.randint(0, len(coinFeatures) - 1)
@@ -143,7 +148,7 @@ while True:
     # BGM settings
     # change BGM with stages
     # 임시로 정해놓은 조건임.
-    if score >= 100 and stage == 1:
+    if score >= 50 and stage == 1:
         stage = 2
         oMusic.stop()
 
@@ -188,7 +193,7 @@ while True:
             coinPrev = coinNow
             prevX = x
 
-    if score >= 300 and stage == 2:
+    if score >= 100 and stage == 2:
         oMusic.stop()
 
         stage_image2 = pygwidgets.Image(
@@ -201,12 +206,11 @@ while True:
         stage = 3
 
     if stage == 3:
-        currentRange = (carbonCounter / 1200) * len(carbon)
-
-        for i in range(0, len(carbon)):
-            # print(carbon[i])
-            oCarbon.setValue('CO2: ' + carbon[i] + '    ppm')
-            oCarbon.draw()
+        score = score - float(carbon[carbonIndex]) * 0.1
+        oCarbon.setValue('CO2:' + carbon[carbonIndex] + 'ppm')
+        oCarbon.draw()
+        oCloud.cloudfill(score)
+        oCloud.draw()
 
     if score > 5000:
         stage = 4
@@ -236,7 +240,6 @@ while True:
             score += oObject.points
             oObject.collide(pygame.time.get_ticks())
             oWater.waterfill(score)
-            oCloud.cloudfill(score)
 
         elif oObject.collision_time != 0 and oObject.disappear(pygame.time.get_ticks(), COLLISION_TIME_DELAY) == True:
             objectList.remove(oObject)
@@ -246,8 +249,7 @@ while True:
     # 10 - Draw the screen elements
     for oObject in objectList:
         oObject.draw()  # tell each ball to draw itself
-    
-    oCloud.draw()
+
     oRestartButton.draw()
     oPenguin.draw()
     oDisplay.draw()
