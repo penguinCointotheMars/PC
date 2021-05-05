@@ -33,6 +33,10 @@ COIN_POINT = 15  # point per coin, can be changed with coin price
 OBJECT_NUMBERS = 10  # the number of dropping objects
 COLLISION_TIME_DELAY = 100
 
+STAGE_1 = 100    #Scores to pass stage 1
+STAGE_2 = 200    #Scores to pass stage 2
+STAGE_3 = 5000   #Scores to pass stage 3
+
 # 3 - Initialize the world
 pygame.init()
 window = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
@@ -45,6 +49,9 @@ oDisplay = pygwidgets.DisplayText(
 
 oCarbon = pygwidgets.DisplayText(
     window, (5, 25), '', fontSize=30)
+
+oStage = pygwidgets.DisplayText(
+    window, ((WINDOW_WIDTH/2-50), 10), '', fontSize=30)
 
 # 5 - Initialize variables
 oPenguin = Penguin(window, WINDOW_WIDTH, WINDOW_HEIGHT,
@@ -101,8 +108,26 @@ def coin_price_update():
             coinMax = u[i]['price']
         if coinMin > u[i]['price']:
             coinMin = u[i]['price']
-
-
+            
+def progress_bar(stage, score):
+    if stage == 1:
+        progress = score/STAGE_1
+        oStage.setValue('Stage 1')
+    elif stage == 2:
+        progress = score/STAGE_2
+        oStage.setValue('Stage 2')
+    elif stage == 3:
+        progress = score/STAGE_3
+        oStage.setValue('Stage 3')
+    elif stage == 4:
+        progress = score/STAGE_3
+        oStage.setValue('Are we in Moon yet?')
+    #Progress bars
+    bar_width = WINDOW_WIDTH - 400
+    pygame.draw.rect(window,(255,0,0),((WINDOW_WIDTH/2-(bar_width/2)),30,bar_width,10))
+    pygame.draw.rect(window,(0,255,0),((WINDOW_WIDTH/2-(bar_width/2)),30,bar_width*(progress),10))
+            
+            
 coin_price_update()
 carbon_emission_update()
 
@@ -153,7 +178,7 @@ while True:
     # to do : score 음수루 전환
     if score < -200:
         pass
-    if score >= 100 and stage == 1:
+    if score >= STAGE_1 and stage == 1:
         stage = 2
         oMusic.fadeout(2000)  # fade out
 
@@ -207,7 +232,7 @@ while True:
             coinPrev = coinNow
             prevX = x
 
-    if score >= 200 and stage == 2:
+    if score >= STAGE_2 and stage == 2:
         oMusic.fadeout(2000)  # fade out
 
         stage_image = pygame.image.load('stage_images/stage3.jpeg')
@@ -236,7 +261,7 @@ while True:
         oCloud.cloudfill(score)
         oCloud.draw()
 
-    if score > 5000:
+    if score > STAGE_3:
         stage = 4
 
     # Add "continuous mode" code here to check for left or right arrow keys
@@ -279,6 +304,8 @@ while True:
     oRestartButton.draw()
     oPenguin.draw()
     oDisplay.draw()
+    progress_bar(stage, score)
+    oStage.draw()
 
     # 11 - Update the screen
     pygame.display.update()
