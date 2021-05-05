@@ -12,8 +12,7 @@ class Cloud():
         self.windowHeight = windowHeight
         self.path = path
         # to store cloud background images  ..     
-        self.image = pygwidgets.ImageCollection(window, (0, 0), {'image1': self.path+'cloudlevel0.png', 'image2': self.path+'cloudlevel1.png',
-                                                                 'image3': self.path+'cloudlevel2.png', 'image4': self.path+'cloudlevel3.png'}, 'image1')
+        self.image = pygwidgets.ImageCollection(window, (0, 0), {'image1': self.path+'cloud.png'}, 'image1')
 
         # sprite sheet index
         self.index = 1
@@ -54,7 +53,7 @@ class Cloud():
 
         self.image.setLoc((self.x, self.y))
         # change image with self.index
-        self.image.replace(f'image{self.index}')
+        self.image.replace('image1')
 
     def getRect(self):
         myRect = pygame.Rect(self.x, self.y, self.width, self.height)

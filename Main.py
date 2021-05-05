@@ -33,9 +33,11 @@ COIN_POINT = 15  # point per coin, can be changed with coin price
 OBJECT_NUMBERS = 10  # the number of dropping objects
 COLLISION_TIME_DELAY = 100
 
-STAGE_1 = 100    #Scores to pass stage 1
-STAGE_2 = 200    #Scores to pass stage 2
-STAGE_3 = 5000   #Scores to pass stage 3
+STAGE_1 = 100  # Scores to pass stage 1
+STAGE_2 = 200  # Scores to pass stage 2
+STAGE_3 = 5000  # Scores to pass stage 3
+
+DEFAULT_REDUCE_RATE = 0.3
 
 # 3 - Initialize the world
 pygame.init()
@@ -48,10 +50,10 @@ oDisplay = pygwidgets.DisplayText(
     window, (WINDOW_WIDTH - 120, 10), '', fontSize=30)
 
 oCarbon = pygwidgets.DisplayText(
-    window, (5, 25), '', fontSize=30)
+    window, (5, 55), '', fontSize=30)
 
 oStage = pygwidgets.DisplayText(
-    window, ((WINDOW_WIDTH/2-50), 10), '', fontSize=30)
+    window, ((WINDOW_WIDTH / 2 - 50), 10), '', fontSize=30)
 
 # 5 - Initialize variables
 oPenguin = Penguin(window, WINDOW_WIDTH, WINDOW_HEIGHT,
@@ -69,7 +71,6 @@ coinFeatures = [["coin", COIN_POINT], ]
 objectList = []
 oRestartButton = pygwidgets.TextButton(window, (5, 5), 'Restart')
 
-
 # constants
 score = 0
 stage = 1
@@ -77,6 +78,7 @@ coin = []
 coinMin = 0
 coinMax = 0
 carbon = []
+carbonCloud = 0
 
 
 def carbon_emission_update():
@@ -108,26 +110,26 @@ def coin_price_update():
             coinMax = u[i]['price']
         if coinMin > u[i]['price']:
             coinMin = u[i]['price']
-            
+
 def progress_bar(stage, score):
     if stage == 1:
-        progress = score/STAGE_1
+        progress = score / STAGE_1
         oStage.setValue('Stage 1')
     elif stage == 2:
-        progress = score/STAGE_2
+        progress = score / STAGE_2
         oStage.setValue('Stage 2')
     elif stage == 3:
-        progress = score/STAGE_3
+        progress = score / STAGE_3
         oStage.setValue('Stage 3')
     elif stage == 4:
-        progress = score/STAGE_3
+        progress = score / STAGE_3
         oStage.setValue('Are we in Moon yet?')
-    #Progress bars
+    # Progress bars
     bar_width = WINDOW_WIDTH - 400
-    pygame.draw.rect(window,(255,0,0),((WINDOW_WIDTH/2-(bar_width/2)),30,bar_width,10))
-    pygame.draw.rect(window,(0,255,0),((WINDOW_WIDTH/2-(bar_width/2)),30,bar_width*(progress),10))
-            
-            
+    pygame.draw.rect(window, (255, 0, 0), ((WINDOW_WIDTH / 2 - (bar_width / 2)), 30, bar_width, 10))
+    pygame.draw.rect(window, (0, 255, 0), ((WINDOW_WIDTH / 2 - (bar_width / 2)), 30, bar_width * (progress), 10))
+
+
 coin_price_update()
 carbon_emission_update()
 
@@ -137,11 +139,12 @@ carbonIndex = 0
 # stage1 BGM play
 oMusic.play()
 
-
 # 6 - Loop forever
 while True:
     frameCounter = (frameCounter + 1) % 1200
     carbonCounter = carbonCounter + 1
+
+    score -= DEFAULT_REDUCE_RATE
 
     if carbonCounter > 60:
         carbonIndex = (carbonIndex+1) % len(carbon)
@@ -163,8 +166,8 @@ while True:
         if oRestartButton.handleEvent(event):  # ckicked on the Restart button
             print('User pressed the Restart button')
             score = 0
-            stage = 1                           #stage back to start
-            oMusic.replace('stage1_BGM.mp3')    #Back to stage 1 music
+            stage = 1  # stage back to start
+            oMusic.replace('stage1_BGM.mp3')  # Back to stage 1 music
             objectList.clear()
 
     oDisplay.setValue('Score:' + str(score))
@@ -183,13 +186,13 @@ while True:
         oMusic.fadeout(2000)  # fade out
 
         stage_image = pygame.image.load('stage_images/stage2.jpeg')
-        S_width = stage_image.get_width()   #Used for putting picture in middle
-        S_height = stage_image.get_height() #Used for putting picture in middle
+        S_width = stage_image.get_width()  # Used for putting picture in middle
+        S_height = stage_image.get_height()  # Used for putting picture in middle
 
         for i in range(225):
             # background.fill((0,0,0))
             stage_image.set_alpha(i)
-            window.blit(stage_image, ((WINDOW_WIDTH-S_width)/2, (WINDOW_HEIGHT-S_height)/2))
+            window.blit(stage_image, ((WINDOW_WIDTH - S_width) / 2, (WINDOW_HEIGHT - S_height) / 2))
             pygame.display.flip()
             pygame.time.delay(20)
             pygame.display.update()
@@ -255,14 +258,22 @@ while True:
         stage = 3
 
     if stage == 3:
-        score = score - float(carbon[carbonIndex]) * 0.1
+        print("score: " + str(score))
+        score = score - float(carbon[carbonIndex]) * 0.01
         oCarbon.setValue('CO2:' + carbon[carbonIndex] + 'ppm')
         oCarbon.draw()
-        oCloud.cloudfill(score)
+        print("current carbon: " + carbon[carbonIndex])
+        print("hej: " + str(float(carbon[carbonIndex]) * 0.01))
+        carbonCloud += carbonCloud + float(carbon[carbonIndex]) * 0.01
+        print("carbon: " + str(carbonCloud))
+        oCloud.cloudfill(carbonCloud)
         oCloud.draw()
 
     if score > STAGE_3:
         stage = 4
+
+    if score <= 0:
+        False
 
     # Add "continuous mode" code here to check for left or right arrow keys
     # If you get one, tell the basket to move itself appropriately
