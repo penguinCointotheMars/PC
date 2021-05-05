@@ -257,13 +257,15 @@ while True:
 
             score += oObject.points
             oObject.collide(pygame.time.get_ticks())
-            oWater.waterfill(score)
+    
 
         elif oObject.collision_time != 0 and oObject.disappear(pygame.time.get_ticks(), COLLISION_TIME_DELAY) == True:
             objectList.remove(oObject)
             oObject.reset()
-
+    
+    oWater.waterfill(score)
     oWater.draw()
+
     # 10 - Draw the screen elements
     for oObject in objectList:
         oObject.draw()  # tell each ball to draw itself

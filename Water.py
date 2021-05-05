@@ -1,7 +1,8 @@
 import pygame
 from pygame.locals import *
 import pygwidgets
-
+import math
+import time
 
 # Water class
 class Water:
@@ -27,22 +28,30 @@ class Water:
         self.halfWidth = self.width / 2
 
         self.x = self.windowWidth - 900
-        self.y = windowHeight - self.height
+        self.y = windowHeight - self.height 
         self.maxX = self.windowWidth - self.width
         self.image.setLoc((self.x, self.y))
 
+
     def waterfill(self, score):
         # update index for background image according to the score
-        if score > 200:
+        if score > 300:
             self.index = 4
         else:
-            if 200 >= score > 100:
+            if 300 >= score > 200:
                 self.index = 3
             else:
-                if 100 >= score > 50:
+                if 200 >= score > 100:
                     self.index = 2
                 else:
                     self.index = 1
+        
+        # add sine wave movement
+        t = pygame.time.get_ticks() / 2  % 400 # scale and loop time
+        ysin = math.sin(t/120.0) * 10 + self.windowHeight - self.height     # scale sine wave
+        ysin = int(ysin)                             # needs to be int
+
+        self.y = ysin
 
         self.image.setLoc((self.x, self.y))
         # change image with self.index
