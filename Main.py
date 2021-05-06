@@ -230,13 +230,13 @@ while True:
     if score > WIN_GOAL:
         oMusic.fadeout(2000)  # fade out
         score = 0
-        win_image = pygame.image.load('stage_images/Final_Win.jpeg')
+        win_image = pygame.image.load('stage_images/Final_Win.png')
         win_image = pygame.transform.scale(win_image, (1000, 1000))
         w_width = win_image.get_width()
         w_height = win_image.get_height()
         for i in range(0, 225, 5):
             # background.fill((0,0,0))
-            fail_image.set_alpha(i)
+            win_image.set_alpha(i)
             window.blit(win_image, ((WINDOW_WIDTH - w_width) /
                                     2, (WINDOW_HEIGHT - w_height) / 2))
             pygame.display.flip()
