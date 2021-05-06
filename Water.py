@@ -55,34 +55,36 @@ class Water:
         #         self.index = 4
 
         # set sine wave movements
-        t = pygame.time.get_ticks() / 2 % 400  # scale and loop time
-        ysin1 = -math.cos(t/180.0) * 10 + self.windowHeight - \
+#        t = pygame.time.get_ticks() / 2 % 360  # scale and loop time
+        t = pygame.time.get_ticks()  % 3600  # scale and loop time
+        print('t'+str(t))
+        ysin1 = -math.sin(t/450.0 * math.pi) * 10 + self.windowHeight - \
             self.height + 20    # scale sine wave
 #        ysin1 = int(ysin1)                             # needs to be int
         (self.windowWidth - self.width)/2
  
-        xsin1 = math.cos(t/120.0) * 15 + (self.windowWidth - \
+        xsin1 = math.sin((t/600.0 - 0.5)* math.pi) * 15 + (self.windowWidth - \
             self.width)/2     # scale sine wave
 #        xsin1 = int(xsin1)                   
 
-        ysin2 = math.sin(t/150.0) * 10 + self.windowHeight - \
+        ysin2 = math.sin(t/600.0 * math.pi) * 10 + self.windowHeight - \
             self.height - 80    # scale sine wave2
 #        ysin2 = int(ysin2)                             # needs to be int
-        xsin2 = -math.sin(t/110.0) * 13 + (self.windowWidth - \
+        xsin2 = (1-math.cos(t/900.0 * math.pi)) * 13 + (self.windowWidth - \
             self.width)/2     # scale sine wave
 #        xsin2 = int(xsin2)                   
 
-        ysin3 = -math.cos(t/120.0) * 10 + self.windowHeight - \
+        ysin3 = (1-math.cos(t/900.0 * math.pi)) * 10 + self.windowHeight - \
             self.height - 180    # scale sine wave3
 #        ysin3 = int(ysin3)                             # needs to be int
-        xsin3 = math.sin(t/100.0) * 11 + (self.windowWidth - \
+        xsin3 = math.sin(t/1200.0 * math.pi) * 11 + (self.windowWidth - \
             self.width)/2     # scale sine wave
 #        xsin3 = int(xsin3) 
 
-        ysin4 = math.sin(t/90.0) * 10 + self.windowHeight - \
+        ysin4 = math.sin(t/1200.0 * math.pi) * 10 + self.windowHeight - \
             self.height - 270    # scale sine wave3
 #        ysin4 = int(ysin4)                             # needs to be int
-        xsin4 = -math.cos(t/90.0) * 9 + (self.windowWidth - \
+        xsin4 = (1-math.cos(t/1800.0 * math.pi)) * 9 + (self.windowWidth - \
             self.width)/2     # scale sine wave
 #        xsin4 = int(xsin4)
 
