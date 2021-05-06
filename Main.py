@@ -352,7 +352,9 @@ while True:
 
     # TODO 강무야 계산해줘!!!!!! ㅋㅋㅋ 클라우드 스테이지 어떻게 나눠야해? 점수별로?
     if stage == 3:
-
+        time = pygame.time.get_ticks()
+#        print("time" + str(time) )
+        oCloud.cloudfill(time)
         print("score: " + str(score))
         score = score - float(carbon[carbonIndex]) * 0.005
         oCarbon.setValue('CO2:' + carbon[carbonIndex] + 'ppm')
@@ -362,9 +364,7 @@ while True:
 #        carbonCloud += carbonCloud + float(carbon[carbonIndex]) * 0.001
 #        print("carbon: " + str(carbonCloud))
 #        oCloud.cloudfill(carbonCloud)
-        time = pygame.time.get_ticks()
-#        print("time" + str(time) )
-        oCloud.cloudfill(time)
+
 
     if score > STAGE_3:
         # stage = 4
