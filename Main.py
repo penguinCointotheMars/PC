@@ -269,7 +269,7 @@ while True:
 
             if i == 10:
                 oMusic.stop()
-                oMusic.volume(0.2)
+                oMusic.volume(0.1)
                 oMusic.replace('win_BGM.wav')
 
         oMusic.fadeout(2000)
@@ -333,7 +333,7 @@ while True:
 
             if i == 10:
                 oMusic.stop()
-                oMusic.volume(0.2)
+                oMusic.volume(0.1)
                 oMusic.replace('win_BGM.wav')
 
         objectList.clear()
@@ -344,7 +344,7 @@ while True:
 
         stage = 3
         time0 = pygame.time.get_ticks()
-    
+
     # TODO 강무야 계산해줘!!!!!! ㅋㅋㅋ 클라우드 스테이지 어떻게 나눠야해? 점수별로?
     if stage == 3:
 
@@ -359,9 +359,7 @@ while True:
 #        oCloud.cloudfill(carbonCloud)
         time = pygame.time.get_ticks()
 #        print("time" + str(time) )
-        oCloud.cloudfill(time)  
-
-
+        oCloud.cloudfill(time)
 
     if score > STAGE_3:
         # stage = 4
@@ -403,14 +401,13 @@ while True:
         oObject.draw()  # tell each ball to draw itself
 
     if stage >= 3:
-         oCloud.draw()
+        oCloud.draw()
     oRestartButton.draw()
     oPenguin.draw()
     oWater.draw()
     oDisplay.draw()
     progress_bar(stage, score)
     oStage.draw()
-
 
     # 11 - Update the screen
     pygame.display.update()
