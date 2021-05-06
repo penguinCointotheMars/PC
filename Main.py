@@ -39,7 +39,7 @@ PENGUIN_SPEED_3 = 8
 PENGUIN_HEIGHT = 200
 COIN_POINT = 15  # point per coin, can be changed with coin price
 OBJECT_NUMBERS = 10  # the number of dropping objects
-COLLISION_TIME_DELAY = 100
+COLLISION_TIME_DELAY = 50
 
 STAGE_1 = 100  # Scores to pass stage 1
 STAGE_2 = 200  # Scores to pass stage 2
