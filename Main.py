@@ -20,9 +20,9 @@ WINDOW_HEIGHT = 1000
 FRAMES_PER_SECOND = 30
 N_PIXELS_TO_MOVE = 3
 # water level & fail 조건
-MELTING_LEVEL_1 = -100
-MELTING_LEVEL_2 = -200
-MELTING_LEVEL_3 = -300
+MELTING_LEVEL_1 = -50
+MELTING_LEVEL_2 = -150
+MELTING_LEVEL_3 = -350
 FAIL_SCORE = -400  # 임시
 
 # source file paths
@@ -343,11 +343,13 @@ while True:
         oMusic.replace('stage1_BGM.mp3')
 
         stage = 3
-
+        time0 = pygame.time.get_ticks()
+    
     # TODO 강무야 계산해줘!!!!!! ㅋㅋㅋ 클라우드 스테이지 어떻게 나눠야해? 점수별로?
     if stage == 3:
+
         print("score: " + str(score))
-        score = score - float(carbon[carbonIndex]) * 0.01
+        score = score - float(carbon[carbonIndex]) * 0.005
         oCarbon.setValue('CO2:' + carbon[carbonIndex] + 'ppm')
         oCarbon.draw()
         print("current carbon: " + carbon[carbonIndex])
@@ -355,8 +357,10 @@ while True:
 #        carbonCloud += carbonCloud + float(carbon[carbonIndex]) * 0.001
 #        print("carbon: " + str(carbonCloud))
 #        oCloud.cloudfill(carbonCloud)
-#        oCloud.cloudfill(score)   
-#        oCloud.draw()
+        time = pygame.time.get_ticks()
+#        print("time" + str(time) )
+        oCloud.cloudfill(time)  
+
 
 
     if score > STAGE_3:
@@ -398,11 +402,14 @@ while True:
     for oObject in objectList:
         oObject.draw()  # tell each ball to draw itself
 
+    if stage >= 3:
+         oCloud.draw()
     oRestartButton.draw()
     oPenguin.draw()
     oDisplay.draw()
     progress_bar(stage, score)
     oStage.draw()
+
 
     # 11 - Update the screen
     pygame.display.update()

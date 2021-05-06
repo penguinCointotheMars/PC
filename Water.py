@@ -20,23 +20,22 @@ class Water:
 
         # to store Glacier background images  ..
 
-        self.image = pygwidgets.ImageCollection(window, (0, 0), {'image1': self.path+'waterlevel1.png', 'image2': self.path+'waterlevel2.png',
-                                                                 'image3': self.path+'waterlevel3.png', 'image4': self.path+'waterlevel4.png'}, 'image1')
-
+        self.image1 = pygwidgets.ImageCollection(window, (0, 0), {'image1': self.path+'wave1.png', 'image2': self.path+'wave2.png',
+                                                                 'image3': self.path+'wave3.png', 'image4': self.path+'wave4.png'}, 'image1')
         # sprite sheet index
         self.index = 1
 
-        startingRect = self.image.getRect()
+        startingRect = self.image1.getRect()
         self.width = startingRect[2]  # width
         self.height = startingRect[3]  # height
-
+        
         self.halfHeight = self.height / 2
         self.halfWidth = self.width / 2
 
         self.x = (self.windowWidth - self.width)/2  # picture in middle
         self.y = windowHeight - self.height
         self.maxX = self.windowWidth - self.width
-        self.image.setLoc((self.x, self.y))
+        self.image1.setLoc((self.x, self.y))
 
     def waterfill(self, score):
         # update index for background image according to the score
@@ -69,13 +68,13 @@ class Water:
 
         self.y = ysin
 
-        self.image.setLoc((self.x, self.y))
+        self.image1.setLoc((self.x, self.y))
         # change image with self.index
-        self.image.replace(f'image{self.index}')
+        self.image1.replace(f'image{self.index}')
 
     def getRect(self):
         myRect = pygame.Rect(self.x, self.y, self.width, self.height)
         return myRect
 
     def draw(self):
-        self.image.draw()
+        self.image1.draw()
