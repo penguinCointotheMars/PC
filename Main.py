@@ -41,8 +41,8 @@ COIN_POINT = 15  # point per coin, can be changed with coin price
 OBJECT_NUMBERS = 10  # the number of dropping objects
 COLLISION_TIME_DELAY = 100
 
-STAGE_1 = 100  # Scores to pass stage 1
-STAGE_2 = 200  # Scores to pass stage 2
+STAGE_1 = 50  # Scores to pass stage 1
+STAGE_2 = 100  # Scores to pass stage 2
 STAGE_3 = 1000  # Scores to pass stage 3
 STAGE_4 = 6000
 WIN_GOAL = 5000  # Scores to win
@@ -175,7 +175,6 @@ while True:
         oCoin = Coin(window, WINDOW_WIDTH, WINDOW_HEIGHT,
                      coinFeatures[coinNumber][0], coinFeatures[coinNumber][1])
         objectList.append(oCoin)
-        # To do : should add clouds, items objects to objectList
 
     # 7 - Check for and handle events
     for event in pygame.event.get():
@@ -220,18 +219,43 @@ while True:
         pygame.time.delay(2000)
         oMusic.replace('stage1_BGM.mp3')
 
+    if score > WIN_GOAL:
+        oMusic.fadeout(2000)  # fade out
+        score = 0
+        win_image = pygame.image.load('stage_images/Final_Win.jpeg')
+        w_width = win_image.get_width()
+        w_height = win_image.get_height()
+        for i in range(0, 225, 5):
+            # background.fill((0,0,0))
+            fail_image.set_alpha(i)
+            window.blit(win_image, ((WINDOW_WIDTH - w_width) /
+                                    2, (WINDOW_HEIGHT - w_height) / 2))
+            pygame.display.flip()
+            pygame.time.delay(20)
+            pygame.display.update()
+
+            if i == 125:
+                oMusic.stop()
+                oMusic.replace('win_BGM.wav')
+
+        objectList.clear()
+        pygame.display.update()
+        pygame.time.delay(100000)
+
+        # oMusic.replace('stage1_BGM.mp3')
+
     # change stages
     if score >= STAGE_1 and stage == 1:
         stage = 2
-        oMusic.fadeout(2000)  # fadef out
         score = 0
+        oMusic.fadeout(2000)  # fadef out
 
         stage_image = pygame.image.load('stage_images/stage2.jpeg')
         S_width = stage_image.get_width()  # Used for putting picture in middle
         S_height = stage_image.get_height()  # Used for putting picture in middle
 
         for i in range(0, 225, 5):
-            # background.fill((0,0,0))
+            # window.fill((0, 0, 0))
             stage_image.set_alpha(i)
             window.blit(stage_image, ((WINDOW_WIDTH - S_width) /
                                       2, (WINDOW_HEIGHT - S_height) / 2))
@@ -239,14 +263,13 @@ while True:
             pygame.time.delay(20)
             pygame.display.update()
 
-            # if i == 125:
+            # if i == 10:
             #     oMusic.stop()
             #     oMusic.replace('win_BGM.wav')
 
         # oMusic.fadeout(2000)
         # oMusic.stop()
         objectList.clear()
-        # stage_image.
         pygame.display.update()
         pygame.time.delay(2000)
         oMusic.replace('stage1_BGM.mp3')
