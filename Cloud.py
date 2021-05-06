@@ -30,6 +30,8 @@ class Cloud():
         self.image.setLoc((self.x, self.y))
 
     def cloudfill(self, score):
+#    def cloudfill(self, carbonCloud):
+        
         # update index for background image according to the score
         if score > 400:
             self.index = 4

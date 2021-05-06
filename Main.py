@@ -271,10 +271,12 @@ while True:
         oCarbon.draw()
         print("current carbon: " + carbon[carbonIndex])
         print("hej: " + str(float(carbon[carbonIndex]) * 0.01))
-        carbonCloud += carbonCloud + float(carbon[carbonIndex]) * 0.01
-        print("carbon: " + str(carbonCloud))
-        oCloud.cloudfill(carbonCloud)
-        oCloud.draw()
+#        carbonCloud += carbonCloud + float(carbon[carbonIndex]) * 0.001
+#        print("carbon: " + str(carbonCloud))
+#        oCloud.cloudfill(carbonCloud)
+#        oCloud.cloudfill(score)   
+#        oCloud.draw()
+
 
     if score > STAGE_3:
         stage = 4
