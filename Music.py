@@ -9,7 +9,7 @@ class Music:
         self.file = path + name
         pygame.mixer.init()
         pygame.mixer.music.load(self.file)
-        pygame.mixer.music.set_volume(0.1)  # 넘 시끄렁...
+        pygame.mixer.music.set_volume(0.3)  # 넘 시끄렁...
 
     def play(self):
         pygame.mixer.music.play()
