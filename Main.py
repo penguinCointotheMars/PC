@@ -41,11 +41,11 @@ COIN_POINT = 15  # point per coin, can be changed with coin price
 OBJECT_NUMBERS = 10  # the number of dropping objects
 COLLISION_TIME_DELAY = 100
 
-STAGE_1 = 100  # Scores to pass stage 1
-STAGE_2 = 200  # Scores to pass stage 2
+STAGE_1 = 200  # Scores to pass stage 1
+STAGE_2 = 500  # Scores to pass stage 2
 STAGE_3 = 1000  # Scores to pass stage 3
 STAGE_4 = 6000
-WIN_GOAL = 800  # Scores to win
+WIN_GOAL = 2000  # Scores to win
 
 DEFAULT_REDUCE_RATE = 0.1
 
@@ -186,6 +186,7 @@ while True:
             print('User pressed the Restart button')
             score = 0
             stage = 1  # stage back to start
+            oMusic.volume(0.3)
             oMusic.replace('stage1_BGM.mp3')  # Back to stage 1 music
             objectList.clear()
 
@@ -198,7 +199,8 @@ while True:
     if score < FAIL_SCORE:
         oMusic.fadeout(2000)  # fade out
         score = 0
-        fail_image = pygame.image.load('stage_images/Lose.jpeg')
+        fail_image = pygame.image.load('stage_images/PlayAgain.png')
+        fail_image = pygame.transform.scale(fail_image, (1000, 1000))
         f_width = fail_image.get_width()
         f_height = fail_image.get_height()
         for i in range(0, 225, 5):
@@ -217,12 +219,14 @@ while True:
         objectList.clear()
         pygame.display.update()
         pygame.time.delay(2000)
+        oMusic.volume(0.3)
         oMusic.replace('stage1_BGM.mp3')
 
     if score > WIN_GOAL:
         oMusic.fadeout(2000)  # fade out
         score = 0
         win_image = pygame.image.load('stage_images/Final_Win.jpeg')
+        win_image = pygame.transform.scale(win_image, (1000, 1000))
         w_width = win_image.get_width()
         w_height = win_image.get_height()
         for i in range(0, 225, 5):
@@ -236,6 +240,7 @@ while True:
 
             if i == 125:
                 oMusic.stop()
+                oMusic.volume(0.4)
                 oMusic.replace('winningSong.mp3')
 
         objectList.clear()
@@ -248,7 +253,8 @@ while True:
         score = 0
         oMusic.fadeout(2000)  # fadef out
 
-        stage_image = pygame.image.load('stage_images/stage2.jpeg')
+        stage_image = pygame.image.load('stage_images/Win.png')
+        stage_image = pygame.transform.scale(stage_image, (1000, 1000))
         S_width = stage_image.get_width()  # Used for putting picture in middle
         S_height = stage_image.get_height()  # Used for putting picture in middle
 
@@ -263,6 +269,7 @@ while True:
 
             if i == 10:
                 oMusic.stop()
+                oMusic.volume(0.2)
                 oMusic.replace('win_BGM.wav')
 
         oMusic.fadeout(2000)
@@ -270,6 +277,7 @@ while True:
         objectList.clear()
         pygame.display.update()
         pygame.time.delay(2000)
+        oMusic.volume(0.3)
         oMusic.replace('stage1_BGM.mp3')
 
     if stage >= 2:
@@ -309,7 +317,8 @@ while True:
         score = 0
         oMusic.fadeout(2000)  # fade out
 
-        stage_image = pygame.image.load('stage_images/stage3.jpeg')
+        stage_image = pygame.image.load('stage_images/Win.png')
+        stage_image = pygame.transform.scale(stage_image, (1000, 1000))
         S_width = stage_image.get_width()  # Used for putting picture in middle
         S_height = stage_image.get_height()  # Used for putting picture in middle
 
@@ -324,11 +333,13 @@ while True:
 
             if i == 10:
                 oMusic.stop()
+                oMusic.volume(0.2)
                 oMusic.replace('win_BGM.wav')
 
         objectList.clear()
         pygame.display.update()
         pygame.time.delay(2000)
+        oMusic.volume(0.3)
         oMusic.replace('stage1_BGM.mp3')
 
         stage = 3

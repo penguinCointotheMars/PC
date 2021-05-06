@@ -26,3 +26,7 @@ class Music:
 
     def fadeout(self, time):
         pygame.mixer.music.fadeout(time)
+
+    def volume(self, v):
+        self.v = v
+        pygame.mixer.music.set_volume(self.v)
