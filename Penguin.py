@@ -4,9 +4,9 @@ import pygwidgets
 
 
 # Penguin class
-class Penguin():
+class Penguin:
 
-    def __init__(self, window, windowWidth, windowHeight, path, xSpeed=12):
+    def __init__(self, window, windowWidth, windowHeight, path, xSpeed=12, height=200):
 
         self.window = window  # remember the window, so we can draw later
         self.windowWidth = windowWidth
@@ -26,7 +26,7 @@ class Penguin():
         self.halfWidth = self.width / 2
 
         self.x = self.windowWidth / 2
-        self.y = windowHeight - self.height - 20
+        self.y = windowHeight - self.height - 90 - height
         self.maxX = self.windowWidth - self.width
         self.image.setLoc((self.x, self.y))
 
