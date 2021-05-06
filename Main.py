@@ -45,9 +45,9 @@ STAGE_1 = 100  # Scores to pass stage 1
 STAGE_2 = 200  # Scores to pass stage 2
 STAGE_3 = 1000  # Scores to pass stage 3
 STAGE_4 = 6000
-WIN_GOAL = 5000  # Scores to win
+WIN_GOAL = 800  # Scores to win
 
-DEFAULT_REDUCE_RATE = 0.3
+DEFAULT_REDUCE_RATE = 0.1
 
 # 3 - Initialize the world
 pygame.init()
@@ -236,7 +236,7 @@ while True:
 
             if i == 125:
                 oMusic.stop()
-                oMusic.replace('win_BGM.wav')
+                oMusic.replace('winningSong.mp3')
 
         objectList.clear()
         pygame.display.update()
