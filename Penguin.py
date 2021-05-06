@@ -26,7 +26,7 @@ class Penguin:
         self.halfWidth = self.width / 2
 
         self.x = self.windowWidth / 2
-        self.y = windowHeight - self.height - 20 - height
+        self.y = windowHeight - self.height - 90 - height
         self.maxX = self.windowWidth - self.width
         self.image.setLoc((self.x, self.y))
 

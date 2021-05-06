@@ -28,7 +28,7 @@ class Cloud():
         self.x1 = 0  #picture in middle        
         self.x2 = (self.windowWidth -self.width)  #picture in middle                
 #        self.y = windowHeight - self.height 
-        self.y = self.height 
+        self.y = self.height
         self.maxX = self.windowWidth - self.width
         self.image1.setLoc((self.x1, self.y))
         self.image2.setLoc((self.x2, self.y))
@@ -40,10 +40,10 @@ class Cloud():
         move_dy = ( time - 50000 ) * 0.01
         if move_dy < self.height:
             print("time: " + str(time)) 
-            self.y = 0 -self.height + move_dy
+            self.y = 0 -self.height + move_dy -50
         else:
         # add sine wave movement?
-            self.y = 0
+            self.y = -50
 
       # update index for background image according to the score (OLD)
 #        if score > 400:

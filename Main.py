@@ -41,8 +41,8 @@ COIN_POINT = 15  # point per coin, can be changed with coin price
 OBJECT_NUMBERS = 10  # the number of dropping objects
 COLLISION_TIME_DELAY = 100
 
-STAGE_1 = 200  # Scores to pass stage 1
-STAGE_2 = 500  # Scores to pass stage 2
+STAGE_1 = 100  # Scores to pass stage 1
+STAGE_2 = 200  # Scores to pass stage 2
 STAGE_3 = 1000  # Scores to pass stage 3
 STAGE_4 = 6000
 WIN_GOAL = 2000  # Scores to win
@@ -194,7 +194,12 @@ while True:
 
     # 9 - Clear the screen before drawing it again
     window.fill(BLUE)
-
+    bg_image = pygame.image.load('water_images/Glacier.png')
+    bg_image = pygame.transform.scale(bg_image, (1000, 1000))
+    b_width = bg_image.get_width()
+    b_height = bg_image.get_height()
+    window.blit(bg_image, ((WINDOW_WIDTH - b_width) /
+                                     2, (WINDOW_HEIGHT - b_height + 200) / 2) )
     # win or lose decide
     if score < FAIL_SCORE:
         oMusic.fadeout(2000)  # fade out
