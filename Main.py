@@ -396,7 +396,7 @@ while True:
             oObject.reset()
 
     oWater.waterfill(score)
-    oWater.draw()
+
 
     # 10 - Draw the screen elements
     for oObject in objectList:
@@ -406,6 +406,7 @@ while True:
          oCloud.draw()
     oRestartButton.draw()
     oPenguin.draw()
+    oWater.draw()
     oDisplay.draw()
     progress_bar(stage, score)
     oStage.draw()
