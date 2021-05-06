@@ -26,7 +26,7 @@ class Penguin:
         self.halfWidth = self.width / 2
 
         self.x = self.windowWidth / 2
-        self.y = windowHeight - self.height - 20 - height
+        self.y = windowHeight - self.height - 90 - height
         self.maxX = self.windowWidth - self.width
         self.image.setLoc((self.x, self.y))
 
@@ -34,6 +34,9 @@ class Penguin:
         self.xSpeed = xSpeed
 
     def move(self, leftOrRight):
+        # change speed with score
+        # if score >=
+
         # add code here to move the basket and restrict it to stay in the window
         if leftOrRight == "left":
             self.x = self.x - \

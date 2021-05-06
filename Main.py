@@ -29,7 +29,7 @@ FAIL_SCORE = -400  # 임시
 PENGUIN_IMAGES_PATH = 'walk_edit_images/'  # penguin sprite images path
 WATER_IMAGES_PATH = 'water_images/'  # iceberg images path
 MUSIC_PATH = 'Music/'  # the path of music tracks
-STAGE_IMAGE_PATH = 'stage_images'
+STAGE_IMAGE_PATH = 'stage_images/'
 CLOUD_IMAGES_PATH = 'cloud_images/'
 
 # constants to play
@@ -39,10 +39,10 @@ PENGUIN_SPEED_3 = 8
 PENGUIN_HEIGHT = 200
 COIN_POINT = 15  # point per coin, can be changed with coin price
 OBJECT_NUMBERS = 10  # the number of dropping objects
-COLLISION_TIME_DELAY = 100
+COLLISION_TIME_DELAY = 50
 
-STAGE_1 = 200  # Scores to pass stage 1
-STAGE_2 = 500  # Scores to pass stage 2
+STAGE_1 = 100  # Scores to pass stage 1
+STAGE_2 = 200  # Scores to pass stage 2
 STAGE_3 = 1000  # Scores to pass stage 3
 STAGE_4 = 6000
 WIN_GOAL = 2000  # Scores to win
@@ -194,7 +194,12 @@ while True:
 
     # 9 - Clear the screen before drawing it again
     window.fill(BLUE)
-
+    bg_image = pygame.image.load('water_images/Glacier.png')
+    bg_image = pygame.transform.scale(bg_image, (1000, 1000))
+    b_width = bg_image.get_width()
+    b_height = bg_image.get_height()
+    window.blit(bg_image, ((WINDOW_WIDTH - b_width) /
+                           2, (WINDOW_HEIGHT - b_height + 200) / 2))
     # win or lose decide
     if score < FAIL_SCORE:
         oMusic.fadeout(2000)  # fade out
@@ -225,13 +230,13 @@ while True:
     if score > WIN_GOAL:
         oMusic.fadeout(2000)  # fade out
         score = 0
-        win_image = pygame.image.load('stage_images/Final_Win.jpeg')
+        win_image = pygame.image.load('stage_images/Win.png')
         win_image = pygame.transform.scale(win_image, (1000, 1000))
         w_width = win_image.get_width()
         w_height = win_image.get_height()
         for i in range(0, 225, 5):
             # background.fill((0,0,0))
-            fail_image.set_alpha(i)
+            win_image.set_alpha(i)
             window.blit(win_image, ((WINDOW_WIDTH - w_width) /
                                     2, (WINDOW_HEIGHT - w_height) / 2))
             pygame.display.flip()
@@ -394,7 +399,6 @@ while True:
             oObject.reset()
 
     oWater.waterfill(score)
-
 
     # 10 - Draw the screen elements
     for oObject in objectList:
