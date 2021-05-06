@@ -19,6 +19,12 @@ WINDOW_WIDTH = 1000
 WINDOW_HEIGHT = 1000
 FRAMES_PER_SECOND = 30
 N_PIXELS_TO_MOVE = 3
+# water level & fail 조건
+MELTING_LEVEL_1 = -100
+MELTING_LEVEL_2 = -200
+MELTING_LEVEL_3 = -300
+FAIL_SCORE = -400  # 임시
+
 # source file paths
 PENGUIN_IMAGES_PATH = 'walk_edit_images/'  # penguin sprite images path
 WATER_IMAGES_PATH = 'water_images/'  # iceberg images path
@@ -28,16 +34,20 @@ CLOUD_IMAGES_PATH = 'cloud_images/'
 
 # constants to play
 PENGUIN_SPEED = 12  # Penguin's speed
+PENGUIN_SPEED_2 = 10
+PENGUIN_SPEED_3 = 8
 PENGUIN_HEIGHT = 200
 COIN_POINT = 15  # point per coin, can be changed with coin price
 OBJECT_NUMBERS = 10  # the number of dropping objects
 COLLISION_TIME_DELAY = 100
 
-STAGE_1 = 100  # Scores to pass stage 1
-STAGE_2 = 200  # Scores to pass stage 2
-STAGE_3 = 5000  # Scores to pass stage 3
+STAGE_1 = 200  # Scores to pass stage 1
+STAGE_2 = 500  # Scores to pass stage 2
+STAGE_3 = 1000  # Scores to pass stage 3
+STAGE_4 = 6000
+WIN_GOAL = 2000  # Scores to win
 
-DEFAULT_REDUCE_RATE = 0.3
+DEFAULT_REDUCE_RATE = 0.1
 
 # 3 - Initialize the world
 pygame.init()
@@ -58,7 +68,8 @@ oStage = pygwidgets.DisplayText(
 # 5 - Initialize variables
 oPenguin = Penguin(window, WINDOW_WIDTH, WINDOW_HEIGHT,
                    PENGUIN_IMAGES_PATH, PENGUIN_SPEED, PENGUIN_HEIGHT)
-oWater = Water(window, WINDOW_WIDTH, WINDOW_HEIGHT, WATER_IMAGES_PATH)
+oWater = Water(window, WINDOW_WIDTH, WINDOW_HEIGHT, WATER_IMAGES_PATH,
+               MELTING_LEVEL_1, MELTING_LEVEL_2, MELTING_LEVEL_3)
 
 oCloud = Cloud(window, WINDOW_WIDTH, WINDOW_HEIGHT, CLOUD_IMAGES_PATH)
 
@@ -111,23 +122,26 @@ def coin_price_update():
         if coinMin > u[i]['price']:
             coinMin = u[i]['price']
 
+
 def progress_bar(stage, score):
     if stage == 1:
-        progress = score / STAGE_1
+        progress = (score - FAIL_SCORE) / (STAGE_1 - FAIL_SCORE)
         oStage.setValue('Stage 1')
     elif stage == 2:
-        progress = score / STAGE_2
+        progress = (score - FAIL_SCORE) / (STAGE_2 - FAIL_SCORE)
         oStage.setValue('Stage 2')
     elif stage == 3:
-        progress = score / STAGE_3
+        progress = (score - FAIL_SCORE) / (STAGE_3 - FAIL_SCORE)
         oStage.setValue('Stage 3')
     elif stage == 4:
-        progress = score / STAGE_3
+        progress = (score - FAIL_SCORE) / (STAGE_4 - FAIL_SCORE)
         oStage.setValue('Are we in Moon yet?')
     # Progress bars
     bar_width = WINDOW_WIDTH - 400
-    pygame.draw.rect(window, (255, 0, 0), ((WINDOW_WIDTH / 2 - (bar_width / 2)), 30, bar_width, 10))
-    pygame.draw.rect(window, (0, 255, 0), ((WINDOW_WIDTH / 2 - (bar_width / 2)), 30, bar_width * (progress), 10))
+    pygame.draw.rect(window, (255, 0, 0),
+                     ((WINDOW_WIDTH / 2 - (bar_width / 2)), 30, bar_width, 10))
+    pygame.draw.rect(window, (0, 255, 0), ((
+        WINDOW_WIDTH / 2 - (bar_width / 2)), 30, bar_width * (progress), 10))
 
 
 coin_price_update()
@@ -142,10 +156,10 @@ oMusic.play()
 # 6 - Loop forever
 while True:
 
-    if stage >= 2 and score <= 0:
+    # if stage >= 2 and score <= 0:
 
-        #TODO need to update with proper game over video or sign
-        continue
+    #     # TODO need to update with proper game over video or sign
+    #     continue
 
     frameCounter = (frameCounter + 1) % 1200
     carbonCounter = carbonCounter + 1
@@ -161,7 +175,6 @@ while True:
         oCoin = Coin(window, WINDOW_WIDTH, WINDOW_HEIGHT,
                      coinFeatures[coinNumber][0], coinFeatures[coinNumber][1])
         objectList.append(oCoin)
-        # To do : should add clouds, items objects to objectList
 
     # 7 - Check for and handle events
     for event in pygame.event.get():
@@ -173,6 +186,7 @@ while True:
             print('User pressed the Restart button')
             score = 0
             stage = 1  # stage back to start
+            oMusic.volume(0.3)
             oMusic.replace('stage1_BGM.mp3')  # Back to stage 1 music
             objectList.clear()
 
@@ -181,32 +195,90 @@ while True:
     # 9 - Clear the screen before drawing it again
     window.fill(BLUE)
 
-    # BGM settings
-    # change BGM with stages
-    # 임시로 정해놓은 조건임.
-    # to do : score 음수루 전환
-    if score < -200:
-        pass
-    if score >= STAGE_1 and stage == 1:
-        stage = 2
+    # win or lose decide
+    if score < FAIL_SCORE:
         oMusic.fadeout(2000)  # fade out
-
-        stage_image = pygame.image.load('stage_images/stage2.jpeg')
-        S_width = stage_image.get_width()  # Used for putting picture in middle
-        S_height = stage_image.get_height()  # Used for putting picture in middle
-
-        for i in range(225):
+        score = 0
+        fail_image = pygame.image.load('stage_images/PlayAgain.png')
+        fail_image = pygame.transform.scale(fail_image, (1000, 1000))
+        f_width = fail_image.get_width()
+        f_height = fail_image.get_height()
+        for i in range(0, 225, 5):
             # background.fill((0,0,0))
-            stage_image.set_alpha(i)
-            window.blit(stage_image, ((WINDOW_WIDTH - S_width) / 2, (WINDOW_HEIGHT - S_height) / 2))
+            fail_image.set_alpha(i)
+            window.blit(fail_image, ((WINDOW_WIDTH - f_width) /
+                                     2, (WINDOW_HEIGHT - f_height) / 2))
             pygame.display.flip()
             pygame.time.delay(20)
             pygame.display.update()
 
+            if i == 125:
+                oMusic.stop()
+                oMusic.replace('lose_BGM.mp3')
+
         objectList.clear()
         pygame.display.update()
         pygame.time.delay(2000)
-        oMusic.replace('stage2_BGM.mp3')
+        oMusic.volume(0.3)
+        oMusic.replace('stage1_BGM.mp3')
+
+    if score > WIN_GOAL:
+        oMusic.fadeout(2000)  # fade out
+        score = 0
+        win_image = pygame.image.load('stage_images/Final_Win.jpeg')
+        win_image = pygame.transform.scale(win_image, (1000, 1000))
+        w_width = win_image.get_width()
+        w_height = win_image.get_height()
+        for i in range(0, 225, 5):
+            # background.fill((0,0,0))
+            fail_image.set_alpha(i)
+            window.blit(win_image, ((WINDOW_WIDTH - w_width) /
+                                    2, (WINDOW_HEIGHT - w_height) / 2))
+            pygame.display.flip()
+            pygame.time.delay(20)
+            pygame.display.update()
+
+            if i == 125:
+                oMusic.stop()
+                oMusic.volume(0.4)
+                oMusic.replace('winningSong.mp3')
+
+        objectList.clear()
+        pygame.display.update()
+        pygame.time.delay(100000)
+
+    # change stages
+    if score >= STAGE_1 and stage == 1:
+        stage = 2
+        score = 0
+        oMusic.fadeout(2000)  # fadef out
+
+        stage_image = pygame.image.load('stage_images/Win.png')
+        stage_image = pygame.transform.scale(stage_image, (1000, 1000))
+        S_width = stage_image.get_width()  # Used for putting picture in middle
+        S_height = stage_image.get_height()  # Used for putting picture in middle
+
+        for i in range(225):
+            # window.fill((0, 0, 0))
+            stage_image.set_alpha(i)
+            window.blit(stage_image, ((WINDOW_WIDTH - S_width) /
+                                      2, (WINDOW_HEIGHT - S_height) / 2))
+            pygame.display.flip()
+            pygame.time.delay(20)
+            pygame.display.update()
+
+            if i == 10:
+                oMusic.stop()
+                oMusic.volume(0.2)
+                oMusic.replace('win_BGM.wav')
+
+        oMusic.fadeout(2000)
+        oMusic.stop()
+        objectList.clear()
+        pygame.display.update()
+        pygame.time.delay(2000)
+        oMusic.volume(0.3)
+        oMusic.replace('stage1_BGM.mp3')
 
     if stage >= 2:
         graphStartY = WINDOW_HEIGHT / 2
@@ -242,28 +314,37 @@ while True:
             prevX = x
 
     if score >= STAGE_2 and stage == 2:
+        score = 0
         oMusic.fadeout(2000)  # fade out
 
-        stage_image = pygame.image.load('stage_images/stage3.jpeg')
-        S_width = stage_image.get_width()   #Used for putting picture in middle
-        S_height = stage_image.get_height() #Used for putting picture in middle
+        stage_image = pygame.image.load('stage_images/Win.png')
+        stage_image = pygame.transform.scale(stage_image, (1000, 1000))
+        S_width = stage_image.get_width()  # Used for putting picture in middle
+        S_height = stage_image.get_height()  # Used for putting picture in middle
 
         for i in range(225):
             # background.fill((0,0,0))
             stage_image.set_alpha(i)
-            window.blit(stage_image, ((WINDOW_WIDTH-S_width)/2, (WINDOW_HEIGHT-S_height)/2))
+            window.blit(stage_image, ((WINDOW_WIDTH-S_width) /
+                                      2, (WINDOW_HEIGHT-S_height)/2))
             pygame.display.flip()
             pygame.time.delay(20)
             pygame.display.update()
 
+            if i == 10:
+                oMusic.stop()
+                oMusic.volume(0.2)
+                oMusic.replace('win_BGM.wav')
+
         objectList.clear()
         pygame.display.update()
         pygame.time.delay(2000)
-        oMusic.replace('stage3_BGM.mp3')
+        oMusic.volume(0.3)
+        oMusic.replace('stage1_BGM.mp3')
 
         stage = 3
 
-    #TODO 강무야 계산해줘!!!!!! ㅋㅋㅋ 클라우드 스테이지 어떻게 나눠야해? 점수별로?
+    # TODO 강무야 계산해줘!!!!!! ㅋㅋㅋ 클라우드 스테이지 어떻게 나눠야해? 점수별로?
     if stage == 3:
         print("score: " + str(score))
         score = score - float(carbon[carbonIndex]) * 0.01
@@ -279,11 +360,11 @@ while True:
 
 
     if score > STAGE_3:
-        stage = 4
-
-    # Add "continuous mode" code here to check for left or right arrow keys
-    # If you get one, tell the basket to move itself appropriately
-    # Check for user pressing keys
+        # stage = 4
+        pass
+        # Add "continuous mode" code here to check for left or right arrow keys
+        # If you get one, tell the basket to move itself appropriately
+        # Check for user pressing keys
     keyPressedList = pygame.key.get_pressed()
 
     if keyPressedList[pygame.K_LEFT]:  # moving left
@@ -305,12 +386,11 @@ while True:
 
             score += oObject.points
             oObject.collide(pygame.time.get_ticks())
-    
 
         elif oObject.collision_time != 0 and oObject.disappear(pygame.time.get_ticks(), COLLISION_TIME_DELAY) == True:
             objectList.remove(oObject)
             oObject.reset()
-    
+
     oWater.waterfill(score)
     oWater.draw()
 
