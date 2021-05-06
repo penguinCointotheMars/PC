@@ -57,7 +57,7 @@ class Water:
         # set sine wave movements
 #        t = pygame.time.get_ticks() / 2 % 360  # scale and loop time
         t = pygame.time.get_ticks()  % 3600  # scale and loop time
-        print('t'+str(t))
+#        print('t'+str(t))
         ysin1 = -math.sin(t/450.0 * math.pi) * 10 + self.windowHeight - \
             self.height + 20    # scale sine wave
 #        ysin1 = int(ysin1)                             # needs to be int
