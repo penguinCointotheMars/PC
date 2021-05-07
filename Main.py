@@ -79,6 +79,8 @@ oWater = Water(window, WINDOW_WIDTH, WINDOW_HEIGHT, WATER_IMAGES_PATH,
 oCloud = Cloud(window, WINDOW_WIDTH, WINDOW_HEIGHT, CLOUD_IMAGES_PATH)
 
 # Music objects to play BGM
+volume = 0.05
+win_volume = 0.1
 oMusic = Music(MUSIC_PATH, 'stage1_BGM.mp3')
 oMusic.volume(0.1)  # Volume of music
 
@@ -152,7 +154,7 @@ def progress_bar(stage, score):
     bar_width = WINDOW_WIDTH - 400
     pygame.draw.rect(window, (255, 0, 0),
                      ((WINDOW_WIDTH / 2 - (bar_width / 2)), 30, bar_width, 20))
-    pygame.draw.rect(window, (0, 110, 30), ((
+    pygame.draw.rect(window, (0, 88, 255), ((
         WINDOW_WIDTH / 2 - (bar_width / 2)), 30, bar_width * (progress), 20))
 
 
@@ -198,7 +200,7 @@ while True:
             print('User pressed the Restart button')
             score = 0
             stage = 1  # stage back to start
-            oMusic.volume(0.3)
+            oMusic.volume(volume)
             oMusic.replace('stage1_BGM.mp3')  # Back to stage 1 music
             objectList.clear()
 
@@ -259,7 +261,7 @@ while True:
         objectList.clear()
         pygame.display.update()
         pygame.time.delay(2000)
-        oMusic.volume(0.3)
+        oMusic.volume(volume)
         oMusic.replace('stage1_BGM.mp3')
 
     if score > WIN_GOAL:
@@ -280,7 +282,7 @@ while True:
 
             if i == 125:
                 oMusic.stop()
-                oMusic.volume(0.4)
+                oMusic.volume(win_volume)
                 oMusic.replace('winningSong.mp3')
 
         objectList.clear()
@@ -309,7 +311,7 @@ while True:
 
             if i == 10:
                 oMusic.stop()
-                oMusic.volume(0.1)
+                oMusic.volume(win_volume)
 #                oMusic.replace('win_BGM.wav')
                 oMusic.replace('winningSong.mp3')
 
@@ -318,7 +320,7 @@ while True:
         objectList.clear()
         pygame.display.update()
         pygame.time.delay(1500)
-        oMusic.volume(0.3)
+        oMusic.volume(volume)
         oMusic.replace('stage1_BGM.mp3')
 
     if stage >= 2:
@@ -374,13 +376,13 @@ while True:
 
             if i == 10:
                 oMusic.stop()
-                oMusic.volume(0.1)
+                oMusic.volume(win_volume)
                 oMusic.replace('winningSong.mp3')
 
         objectList.clear()
         pygame.display.update()
         pygame.time.delay(1500)
-        oMusic.volume(0.3)
+        oMusic.volume(volume)
         oMusic.replace('stage1_BGM.mp3')
 
         stage = 3
