@@ -29,7 +29,7 @@ FAIL_SCORE = -400  # 임시
 PENGUIN_IMAGES_PATH = 'walk_edit_images/'  # penguin sprite images path
 WATER_IMAGES_PATH = 'water_images/'  # iceberg images path
 MUSIC_PATH = 'Music/'  # the path of music tracks
-STAGE_IMAGE_PATH = 'stage_images/'
+STAGE_IMAGE_PATH = 'stage_images'
 CLOUD_IMAGES_PATH = 'cloud_images/'
 
 # constants to play
@@ -230,7 +230,7 @@ while True:
     if score > WIN_GOAL:
         oMusic.fadeout(2000)  # fade out
         score = 0
-        win_image = pygame.image.load('stage_images/Win.png')
+        win_image = pygame.image.load('stage_images/Final_Win.png')
         win_image = pygame.transform.scale(win_image, (1000, 1000))
         w_width = win_image.get_width()
         w_height = win_image.get_height()
@@ -352,7 +352,9 @@ while True:
 
     # TODO 강무야 계산해줘!!!!!! ㅋㅋㅋ 클라우드 스테이지 어떻게 나눠야해? 점수별로?
     if stage == 3:
-
+        time = pygame.time.get_ticks()
+#        print("time" + str(time) )
+        oCloud.cloudfill(time)
         print("score: " + str(score))
         score = score - float(carbon[carbonIndex]) * 0.005
         oCarbon.setValue('CO2:' + carbon[carbonIndex] + 'ppm')
@@ -362,9 +364,6 @@ while True:
 #        carbonCloud += carbonCloud + float(carbon[carbonIndex]) * 0.001
 #        print("carbon: " + str(carbonCloud))
 #        oCloud.cloudfill(carbonCloud)
-        time = pygame.time.get_ticks()
-#        print("time" + str(time) )
-        oCloud.cloudfill(time)
 
     if score > STAGE_3:
         # stage = 4
