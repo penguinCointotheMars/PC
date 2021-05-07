@@ -5,7 +5,7 @@ block_cipher = None
 
 
 a = Analysis(['main.py'],
-             pathex=['/Users/byeong-geonkim/Desktop/PC'],
+             pathex=['/Users/jihomoon/PC'],
              binaries=[],
              datas=[],
              hiddenimports=[],
@@ -24,7 +24,7 @@ exe = EXE(pyz,
           a.zipfiles,
           a.datas,
           [],
-          name='main',
+          name='game',
           debug=False,
           bootloader_ignore_signals=False,
           strip=False,
@@ -33,6 +33,6 @@ exe = EXE(pyz,
           runtime_tmpdir=None,
           console=False )
 app = BUNDLE(exe,
-             name='main.app',
+             name='game.app',
              icon=None,
              bundle_identifier=None)
