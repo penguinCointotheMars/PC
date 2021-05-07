@@ -59,7 +59,7 @@ pygame.display.set_caption('Penguin Coin to the moon!!')  # window name
 
 # 4 - Load assets: image(s), sounds, etc.
 oDisplay = pygwidgets.DisplayText(
-    window, (WINDOW_WIDTH - 120, 10), '', fontSize=30)
+    window, (WINDOW_WIDTH - 150, 10), '', fontSize=30)
 
 oCarbon = pygwidgets.DisplayText(
     window, (5, 55), '', fontSize=30)
@@ -192,7 +192,7 @@ while True:
             oMusic.replace('stage1_BGM.mp3')  # Back to stage 1 music
             objectList.clear()
 
-    oDisplay.setValue('Score:' + str(score))
+#    oDisplay.setValue('Score:' + str(round(score, 3)))
 
     # 9 - Clear the screen before drawing it again
     window.fill(BLUE)
@@ -367,7 +367,7 @@ while True:
 #        print("time" + str(time) )
         oCloud.cloudfill(time)
         print("score: " + str(score))
-        score = score - float(carbon[carbonIndex]) * 0.005
+        score = round( score - float(carbon[carbonIndex]) * 0.005, 2 )
         oCarbon.setValue('CO2:' + carbon[carbonIndex] + 'ppm')
 
         print("current carbon: " + carbon[carbonIndex])
@@ -409,6 +409,7 @@ while True:
             oObject.reset()
 
     oWater.waterfill(score)
+    oDisplay.setValue('Score:' + str(round(score, 2)))
 
     # 10 - Draw the screen elements
     for oObject in objectList:
