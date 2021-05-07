@@ -30,7 +30,7 @@ class Cloud():
 #        self.x1 = 0  # picture in middle
 #        self.x2 = (self.windowWidth - self.width)  # picture in middle
 #        self.y = windowHeight - self.height
-        self.y = self.halfHeight
+        self.y = -self.height + 30
         self.maxX = self.windowWidth - self.width
         self.image1.setLoc((self.x1, self.y))
 #        self.image2.setLoc((self.x2, self.y))
@@ -43,15 +43,24 @@ class Cloud():
         # NEED TO ADJUST THE OFFSET VALUE or reset the time
 
         t = pygame.time.get_ticks() % 3600  # scale and loop time
-        ysin = math.sin(t/1800.0 * math.pi) * 4  # scale sine wave1
+        ysin = math.sin(t/1800.0 * math.pi)   # scale sine wave1
 
-        move_dy = (time - 100000) * 0.01
-        if move_dy < self.halfHeight:
-            print("time: " + str(time))
-            self.y = 0 - self.height + move_dy - 100 
+        if self.y < - self.halfHeight - 100:
+            if ysin > 0:
+                move_dy = ysin * 2    
+            else: 
+                move_dy = 0.3 * ysin
+            self.y = self.y + move_dy
         else:
-            # add sine wave movement?
-            self.y = -100 - self.halfHeight + ysin
+            self.y = -100 - self.halfHeight + ysin * 4
+
+#        move_dy = (time  - 100000) * 0.01
+#        if move_dy < self.halfHeight:
+#            print("time: " + str(time))
+#            self.y = 0 - self.height + move_dy - 100 
+#        else:
+#            # add sine wave movement?
+#            self.y = -100 - self.halfHeight + ysin
         
 
       # update index for background image according to the score (OLD)
@@ -87,3 +96,6 @@ class Cloud():
     def draw(self):
         self.image1.draw()
 #        self.image2.draw()
+
+    def reset(self):
+        self.y = -self.height +30

@@ -259,7 +259,7 @@ while True:
             if i == 125:
                 oMusic.stop()
                 oMusic.replace('mooyaho.mp3')
-
+        oCloud.reset()
         objectList.clear()
         pygame.display.update()
         pygame.time.delay(2000)
@@ -391,17 +391,19 @@ while True:
         stage = 3
         time0 = pygame.time.get_ticks()
 
-    # TODO 강무야 계산해줘!!!!!! ㅋㅋㅋ 클라우드 스테이지 어떻게 나눠야해? 점수별로?
+    # TODO 구름 리셋 
     if stage == 3:
-        time = pygame.time.get_ticks()
+        if score < FAIL_SCORE: 
+            oCloud.reset()
+#        time = pygame.time.get_ticks()
 #        print("time" + str(time) )
         oCloud.cloudfill(time)
         print("score: " + str(score))
         score = round(score - float(carbon[carbonIndex]) * 0.005, 2)
         oCarbon.setValue('CO2:' + carbon[carbonIndex] + 'ppm')
 
-        print("current carbon: " + carbon[carbonIndex])
-        print("hej: " + str(float(carbon[carbonIndex]) * 0.01))
+#        print("current carbon: " + carbon[carbonIndex])
+#        print("hej: " + str(float(carbon[carbonIndex]) * 0.01))
 #        carbonCloud += carbonCloud + float(carbon[carbonIndex]) * 0.001
 #        print("carbon: " + str(carbonCloud))
 #        oCloud.cloudfill(carbonCloud)
