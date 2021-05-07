@@ -2,6 +2,8 @@
 import sys
 import time
 
+import pygame
+import pygwidgets
 import requests
 
 from Coin import *  # bring in the Coin class code
@@ -41,8 +43,8 @@ COIN_POINT = 15  # point per coin, can be changed with coin price
 OBJECT_NUMBERS = 10  # the number of dropping objects
 COLLISION_TIME_DELAY = 50
 
-STAGE_1 = 300  # Scores to pass stage 1
-STAGE_2 = 500  # Scores to pass stage 2
+STAGE_1 = 300  # Scores to pass stage 1 
+STAGE_2 = 500  # Scores to pass stage 2 
 STAGE_3 = 1000  # Scores to pass stage 3
 STAGE_4 = 6000
 WIN_GOAL = 2000  # Scores to win
@@ -194,12 +196,20 @@ while True:
 
     # 9 - Clear the screen before drawing it again
     window.fill(BLUE)
+
+    bg_image0 = pygame.image.load(STAGE_IMAGE_PATH+'BackGround.png') 
+    bg_image0 = pygame.transform.scale(bg_image0, (1000, 1000))       
+    b_width0 = bg_image0.get_width()
+    b_height0 = bg_image0.get_height()
+    window.blit(bg_image0, ((WINDOW_WIDTH - b_width0) /
+                           2, (WINDOW_HEIGHT - b_height0 ) / 2))
+
     bg_image = pygame.image.load(WATER_IMAGES_PATH+'Glacier.png')
-    bg_image = pygame.transform.scale(bg_image, (1000, 1000))
+#    bg_image = pygame.transform.scale(bg_image, (1024, 512))
     b_width = bg_image.get_width()
     b_height = bg_image.get_height()
     window.blit(bg_image, ((WINDOW_WIDTH - b_width) /
-                           2, (WINDOW_HEIGHT - b_height + 200) / 2))
+                           2, (WINDOW_HEIGHT - b_height + 300) / 2))
     # win or lose decide
     if score < FAIL_SCORE:
         oMusic.fadeout(2000)  # fade out
@@ -219,7 +229,7 @@ while True:
 
             if i == 125:
                 oMusic.stop()
-                oMusic.replace('lose_BGM.mp3')
+                oMusic.replace('mooyaho.mp3')
 
         objectList.clear()
         pygame.display.update()
@@ -275,13 +285,14 @@ while True:
             if i == 10:
                 oMusic.stop()
                 oMusic.volume(0.1)
-                oMusic.replace('win_BGM.wav')
+#                oMusic.replace('win_BGM.wav')
+                oMusic.replace('winningSong.mp3')
 
-        oMusic.fadeout(2000)
+        oMusic.fadeout(1500)
         oMusic.stop()
         objectList.clear()
         pygame.display.update()
-        pygame.time.delay(2000)
+        pygame.time.delay(1500)
         oMusic.volume(0.3)
         oMusic.replace('stage1_BGM.mp3')
 
@@ -304,11 +315,11 @@ while True:
             coinNowRatio = abs(coinNow - coinMin) / abs(coinMax - coinMin)
 
             # linear mapping
-            yNowPosition = graphStartY - 50 + (coinNowRatio * 200)
-            yPrevPosition = graphStartY - 50 + (coinPrevRatio * 200)
+            yNowPosition = graphStartY - 150 + (coinNowRatio * 200)
+            yPrevPosition = graphStartY - 150 + (coinPrevRatio * 200)
 
             pygame.draw.line(
-                window, BLACK, (prevX, yPrevPosition), (x, yNowPosition), 1)
+                window, BLACK, (prevX, yPrevPosition), (x, yNowPosition), 2)
 
             if coinPrev > coinNow:
                 oCoin.ySpeed = oCoin.ySpeed - 0.2
@@ -339,11 +350,11 @@ while True:
             if i == 10:
                 oMusic.stop()
                 oMusic.volume(0.1)
-                oMusic.replace('win_BGM.wav')
+                oMusic.replace('winningSong.mp3')
 
         objectList.clear()
         pygame.display.update()
-        pygame.time.delay(2000)
+        pygame.time.delay(1500)
         oMusic.volume(0.3)
         oMusic.replace('stage1_BGM.mp3')
 
