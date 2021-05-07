@@ -47,9 +47,9 @@ class Cloud():
 
         if self.y < - self.halfHeight - 100:
             if ysin > 0:
-                move_dy = ysin * 2    
+                move_dy = ysin * 4    
             else: 
-                move_dy = 0.3 * ysin
+                move_dy = 0.5 * ysin
             self.y = self.y + move_dy
         else:
             self.y = -100 - self.halfHeight + ysin * 4

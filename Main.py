@@ -43,8 +43,8 @@ COIN_POINT = 15  # point per coin, can be changed with coin price
 OBJECT_NUMBERS = 10  # the number of dropping objects
 COLLISION_TIME_DELAY = 50
 
-STAGE_1 = 300  # Scores to pass stage 1
-STAGE_2 = 500  # Scores to pass stage 2
+STAGE_1 = 200  # Scores to pass stage 1
+STAGE_2 = 400  # Scores to pass stage 2
 STAGE_3 = 1000  # Scores to pass stage 3
 STAGE_4 = 6000
 WIN_GOAL = 2000  # Scores to win
@@ -345,11 +345,11 @@ while True:
             coinNowRatio = abs(coinNow - coinMin) / abs(coinMax - coinMin)
 
             # linear mapping
-            yNowPosition = graphStartY - 150 + (coinNowRatio * 200)
-            yPrevPosition = graphStartY - 150 + (coinPrevRatio * 200)
+            yNowPosition = graphStartY - 150 + (coinNowRatio * 500)
+            yPrevPosition = graphStartY - 150 + (coinPrevRatio * 500)
 
             pygame.draw.line(
-                window, (0,88,255), (prevX, yPrevPosition), (x, yNowPosition), 4)
+                window, (0,88,255), (prevX, yPrevPosition), (x, yNowPosition), 2)
 
             if coinPrev > coinNow:
                 oCoin.ySpeed = oCoin.ySpeed - 0.2
