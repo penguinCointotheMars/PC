@@ -43,8 +43,8 @@ COIN_POINT = 15  # point per coin, can be changed with coin price
 OBJECT_NUMBERS = 10  # the number of dropping objects
 COLLISION_TIME_DELAY = 50
 
-STAGE_1 = 300  # Scores to pass stage 1 
-STAGE_2 = 500  # Scores to pass stage 2 
+STAGE_1 = 300  # Scores to pass stage 1
+STAGE_2 = 500  # Scores to pass stage 2
 STAGE_3 = 1000  # Scores to pass stage 3
 STAGE_4 = 6000
 WIN_GOAL = 2000  # Scores to win
@@ -62,13 +62,13 @@ oDisplay = pygwidgets.DisplayText(
     window, (WINDOW_WIDTH - 150, 10), '', fontSize=30)
 
 oCarbon = pygwidgets.DisplayText(
-    window, (5, 55), '', fontSize=30)
+    window, (5, 100), '', fontSize=30)
 
 oStage = pygwidgets.DisplayText(
     window, ((WINDOW_WIDTH / 2 - 50), 10), '', fontSize=30)
 
 oPaused = pygwidgets.DisplayText(
-    window, ((WINDOW_WIDTH / 2 - 140), 340), 'PAUSED', fontSize=100,textColor=(100,100,100))
+    window, ((WINDOW_WIDTH / 2 - 140), 340), 'PAUSED', fontSize=100, textColor=(100, 100, 100))
 
 # 5 - Initialize variables
 oPenguin = Penguin(window, WINDOW_WIDTH, WINDOW_HEIGHT,
@@ -80,11 +80,10 @@ oCloud = Cloud(window, WINDOW_WIDTH, WINDOW_HEIGHT, CLOUD_IMAGES_PATH)
 
 # Music objects to play BGM
 oMusic = Music(MUSIC_PATH, 'stage1_BGM.mp3')
-oMusic.volume(0.1)      #Volume of music
+oMusic.volume(0.1)  # Volume of music
 
 coin_sound = pygame.mixer.Sound('resources/Music/CoinSound.mp3')
 coin_sound.set_volume(0.02)
-
 
 
 # coinFeatures : list of coin's features to decide images and points
@@ -202,33 +201,33 @@ while True:
             oMusic.volume(0.3)
             oMusic.replace('stage1_BGM.mp3')  # Back to stage 1 music
             objectList.clear()
-            
-           #Pause Button
-           if oPauseButton.handleEvent(event):  # ckicked on the Pause button
-            oPaused.draw()
-            paused = True
-            oResumeButton.draw()
-            pygame.display.update()
 
-            while paused == True:
-                for event in pygame.event.get():
-                    if oResumeButton.handleEvent(event):
-                        paused = False
-                    if event.type == pygame.QUIT:
-                        pygame.quit()
-                        sys.exit()
+           # Pause Button
+            if oPauseButton.handleEvent(event):  # ckicked on the Pause button
+                oPaused.draw()
+                paused = True
+                oResumeButton.draw()
+                pygame.display.update()
+
+                while paused == True:
+                    for event in pygame.event.get():
+                        if oResumeButton.handleEvent(event):
+                            paused = False
+                        if event.type == pygame.QUIT:
+                            pygame.quit()
+                            sys.exit()
 
 #    oDisplay.setValue('Score:' + str(round(score, 3)))
 
     # 9 - Clear the screen before drawing it again
     window.fill(BLUE)
 
-    bg_image0 = pygame.image.load(STAGE_IMAGE_PATH+'BackGround.png') 
-    bg_image0 = pygame.transform.scale(bg_image0, (1000, 1000))       
+    bg_image0 = pygame.image.load(STAGE_IMAGE_PATH+'BackGround.png')
+    bg_image0 = pygame.transform.scale(bg_image0, (1000, 1000))
     b_width0 = bg_image0.get_width()
     b_height0 = bg_image0.get_height()
     window.blit(bg_image0, ((WINDOW_WIDTH - b_width0) /
-                           2, (WINDOW_HEIGHT - b_height0 ) / 2))
+                            2, (WINDOW_HEIGHT - b_height0) / 2))
 
     bg_image = pygame.image.load(WATER_IMAGES_PATH+'Glacier.png')
 #    bg_image = pygame.transform.scale(bg_image, (1024, 512))
@@ -393,7 +392,7 @@ while True:
 #        print("time" + str(time) )
         oCloud.cloudfill(time)
         print("score: " + str(score))
-        score = round( score - float(carbon[carbonIndex]) * 0.005, 2 )
+        score = round(score - float(carbon[carbonIndex]) * 0.005, 2)
         oCarbon.setValue('CO2:' + carbon[carbonIndex] + 'ppm')
 
         print("current carbon: " + carbon[carbonIndex])
