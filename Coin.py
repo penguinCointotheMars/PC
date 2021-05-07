@@ -7,17 +7,20 @@ import pygwidgets
 # Coin class
 class Coin:
 
-    def __init__(self, window, windowWidth, windowHeight, coinType, points=15, price=6):
+    def __init__(self, window, path, windowWidth, windowHeight, coinType, points=15, price=6):
         self.points = points
         self.Type = coinType
         self.window = window  # remember the window, so we can draw later
         self.windowWidth = windowWidth
         self.windowHeight = windowHeight
         self.collision_time = 0  # store collision time
+        self.path = path
+        print(f"{self.path}{coinType}.png")
 
         # store same coin image, should replace to display sprite sheets
         self.image = pygwidgets.Image(
-            window, (0, 0), f"coin_images/{coinType}.png")
+            window, (0, 0), f"{self.path}{coinType}.png")
+
         # 이미지가 너무 커서 임시로 작게 만듬 (추후 해상도 낮춰서 적용)
         self.image.scale(10, scaleFromCenter=True)
         self.points = points
@@ -46,7 +49,7 @@ class Coin:
         if self.y > self.windowHeight:
             self.reset()
 
-        # Rotate Coin # Code Credit: Sohye Park 
+        # Rotate Coin # Code Credit: Sohye Park
         before_rot = self.image.getRect()
         self.image.rotate(self.rSpeed)
         after_rot = self.image.getRect()
@@ -56,7 +59,6 @@ class Coin:
         # move location
         self.y = self.y + self.ySpeed
         self.image.setLoc((self.x, self.y))
-
 
     def getRect(self):
         myRect = pygame.Rect(self.x, self.y, self.width, self.height)

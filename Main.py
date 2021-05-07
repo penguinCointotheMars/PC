@@ -26,11 +26,12 @@ MELTING_LEVEL_3 = -350
 FAIL_SCORE = -400  # 임시
 
 # source file paths
-PENGUIN_IMAGES_PATH = 'walk_edit_images/'  # penguin sprite images path
-WATER_IMAGES_PATH = 'water_images/'  # iceberg images path
-MUSIC_PATH = 'Music/'  # the path of music tracks
-STAGE_IMAGE_PATH = 'stage_images'
-CLOUD_IMAGES_PATH = 'cloud_images/'
+PENGUIN_IMAGES_PATH = 'resources/walk_edit_images/'  # penguin sprite images path
+WATER_IMAGES_PATH = 'resources/water_images/'  # iceberg images path
+MUSIC_PATH = 'resources/Music/'  # the path of music tracks
+STAGE_IMAGE_PATH = 'resources/stage_images/'
+CLOUD_IMAGES_PATH = 'resources/cloud_images/'
+COIN_IMAGES_PATH = 'resources/coin_images/'
 
 # constants to play
 PENGUIN_SPEED = 12  # Penguin's speed
@@ -172,7 +173,7 @@ while True:
 
     if len(objectList) <= OBJECT_NUMBERS:
         coinNumber = random.randint(0, len(coinFeatures) - 1)
-        oCoin = Coin(window, WINDOW_WIDTH, WINDOW_HEIGHT,
+        oCoin = Coin(window, COIN_IMAGES_PATH, WINDOW_WIDTH, WINDOW_HEIGHT,
                      coinFeatures[coinNumber][0], coinFeatures[coinNumber][1])
         objectList.append(oCoin)
 
@@ -194,7 +195,7 @@ while True:
 
     # 9 - Clear the screen before drawing it again
     window.fill(BLUE)
-    bg_image = pygame.image.load('water_images/Glacier.png')
+    bg_image = pygame.image.load(WATER_IMAGES_PATH+'Glacier.png')
     bg_image = pygame.transform.scale(bg_image, (1000, 1000))
     b_width = bg_image.get_width()
     b_height = bg_image.get_height()
@@ -204,7 +205,7 @@ while True:
     if score < FAIL_SCORE:
         oMusic.fadeout(2000)  # fade out
         score = 0
-        fail_image = pygame.image.load('stage_images/PlayAgain.png')
+        fail_image = pygame.image.load(STAGE_IMAGE_PATH+'PlayAgain.png')
         fail_image = pygame.transform.scale(fail_image, (1000, 1000))
         f_width = fail_image.get_width()
         f_height = fail_image.get_height()
@@ -230,7 +231,7 @@ while True:
     if score > WIN_GOAL:
         oMusic.fadeout(2000)  # fade out
         score = 0
-        win_image = pygame.image.load('stage_images/Final_Win.png')
+        win_image = pygame.image.load(STAGE_IMAGE_PATH+'Final_Win.png')
         win_image = pygame.transform.scale(win_image, (1000, 1000))
         w_width = win_image.get_width()
         w_height = win_image.get_height()
@@ -258,7 +259,7 @@ while True:
         score = 0
         oMusic.fadeout(2000)  # fadef out
 
-        stage_image = pygame.image.load('stage_images/Win.png')
+        stage_image = pygame.image.load(STAGE_IMAGE_PATH+'Win.png')
         stage_image = pygame.transform.scale(stage_image, (1000, 1000))
         S_width = stage_image.get_width()  # Used for putting picture in middle
         S_height = stage_image.get_height()  # Used for putting picture in middle
@@ -322,7 +323,7 @@ while True:
         score = 0
         oMusic.fadeout(2000)  # fade out
 
-        stage_image = pygame.image.load('stage_images/Win.png')
+        stage_image = pygame.image.load(STAGE_IMAGE_PATH+'Win.png')
         stage_image = pygame.transform.scale(stage_image, (1000, 1000))
         S_width = stage_image.get_width()  # Used for putting picture in middle
         S_height = stage_image.get_height()  # Used for putting picture in middle
