@@ -56,6 +56,8 @@ pygame.init()
 window = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
 clock = pygame.time.Clock()  # set the speed (frames per second)
 pygame.display.set_caption('Penguin Coin to the moon!!')  # window name
+icon = pygame.image.load('resources/stage_images/Win.png')
+pygame.display.set_icon(icon)
 
 # 4 - Load assets: image(s), sounds, etc.
 oDisplay = pygwidgets.DisplayText(
@@ -346,7 +348,7 @@ while True:
             yPrevPosition = graphStartY - 150 + (coinPrevRatio * 200)
 
             pygame.draw.line(
-                window, BLACK, (prevX, yPrevPosition), (x, yNowPosition), 4)
+                window, (0,110,30), (prevX, yPrevPosition), (x, yNowPosition), 4)
 
             if coinPrev > coinNow:
                 oCoin.ySpeed = oCoin.ySpeed - 0.2
