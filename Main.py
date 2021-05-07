@@ -77,6 +77,12 @@ oCloud = Cloud(window, WINDOW_WIDTH, WINDOW_HEIGHT, CLOUD_IMAGES_PATH)
 
 # Music objects to play BGM
 oMusic = Music(MUSIC_PATH, 'stage1_BGM.mp3')
+oMusic.volume(0.1)      #Volume of music
+
+coin_sound = pygame.mixer.Sound('resources/Music/CoinSound.mp3')
+coin_sound.set_volume(0.02)
+
+
 
 # coinFeatures : list of coin's features to decide images and points
 coinFeatures = [["coin", COIN_POINT], ]
@@ -400,6 +406,7 @@ while True:
         if basketRect.colliderect(objectRect) and oObject.collision_time == 0:
 
             print("{} has collided with the Penguin".format(oObject.Type))
+            coin_sound.play()
 
             score += oObject.points
             oObject.collide(pygame.time.get_ticks())
