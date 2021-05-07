@@ -139,9 +139,9 @@ def progress_bar(stage, score):
     # Progress bars
     bar_width = WINDOW_WIDTH - 400
     pygame.draw.rect(window, (255, 0, 0),
-                     ((WINDOW_WIDTH / 2 - (bar_width / 2)), 30, bar_width, 10))
-    pygame.draw.rect(window, (0, 255, 0), ((
-        WINDOW_WIDTH / 2 - (bar_width / 2)), 30, bar_width * (progress), 10))
+                     ((WINDOW_WIDTH / 2 - (bar_width / 2)), 30, bar_width, 20))
+    pygame.draw.rect(window, (0, 110, 30), ((
+        WINDOW_WIDTH / 2 - (bar_width / 2)), 30, bar_width * (progress), 20))
 
 
 coin_price_update()
