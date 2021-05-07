@@ -24,7 +24,7 @@ N_PIXELS_TO_MOVE = 3
 MELTING_LEVEL_1 = -50
 MELTING_LEVEL_2 = -150
 MELTING_LEVEL_3 = -350
-FAIL_SCORE = -400  # 임시
+FAIL_SCORE = -400
 
 # source file paths
 PENGUIN_IMAGES_PATH = 'resources/walk_edit_images/'  # penguin sprite images path
@@ -40,7 +40,7 @@ PENGUIN_SPEED_2 = 10
 PENGUIN_SPEED_3 = 8
 PENGUIN_HEIGHT = 200
 COIN_POINT = 15  # point per coin, can be changed with coin price
-OBJECT_NUMBERS = 10  # the number of dropping objects
+OBJECT_NUMBERS = 5  # the number of dropping objects
 COLLISION_TIME_DELAY = 50
 
 STAGE_1 = 200  # Scores to pass stage 1
@@ -61,13 +61,13 @@ pygame.display.set_icon(icon)
 
 # 4 - Load assets: image(s), sounds, etc.
 oDisplay = pygwidgets.DisplayText(
-    window, (WINDOW_WIDTH - 150, 10), '', fontSize=30)
+    window, (WINDOW_WIDTH - 160, 30), '', fontSize=40)
 
 oCarbon = pygwidgets.DisplayText(
     window, (5, 100), '', fontSize=30)
 
 oStage = pygwidgets.DisplayText(
-    window, ((WINDOW_WIDTH / 2 - 50), 10), '', fontSize=30)
+    window, ((WINDOW_WIDTH / 2 - 50), 15), '', fontSize=30)
 
 oPaused = pygwidgets.DisplayText(
     window, ((WINDOW_WIDTH / 2 - 140), 340), 'PAUSED', fontSize=100, textColor=(100, 100, 100))
@@ -83,6 +83,7 @@ oCloud = Cloud(window, WINDOW_WIDTH, WINDOW_HEIGHT, CLOUD_IMAGES_PATH)
 # Music objects to play BGM
 volume = 0.05
 win_volume = 0.1
+mooyaho_volume = 0.2
 oMusic = Music(MUSIC_PATH, 'stage1_BGM.mp3')
 oMusic.volume(0.1)  # Volume of music
 
@@ -155,9 +156,9 @@ def progress_bar(stage, score):
     # Progress bars
     bar_width = WINDOW_WIDTH - 400
     pygame.draw.rect(window, (255, 0, 0),
-                     ((WINDOW_WIDTH / 2 - (bar_width / 2)), 30, bar_width, 20))
+                     ((WINDOW_WIDTH / 2 - (bar_width / 2)), 50, bar_width, 20))
     pygame.draw.rect(window, (0, 88, 255), ((
-        WINDOW_WIDTH / 2 - (bar_width / 2)), 30, bar_width * (progress), 20))
+        WINDOW_WIDTH / 2 - (bar_width / 2)), 50, bar_width * (progress), 20))
 
 
 coin_price_update()
@@ -185,6 +186,8 @@ while True:
     if carbonCounter > 60:
         carbonIndex = (carbonIndex+1) % len(carbon)
         carbonCounter = 0
+
+    OBJECT_NUMBERS = 10 if stage is not 1 else 5
 
     if len(objectList) <= OBJECT_NUMBERS:
         coinNumber = random.randint(0, len(coinFeatures) - 1)
@@ -258,6 +261,7 @@ while True:
 
             if i == 125:
                 oMusic.stop()
+                oMusic.volume(mooyaho_volume)
                 oMusic.replace('mooyaho.mp3')
         oCloud.reset()
         objectList.clear()
@@ -326,7 +330,7 @@ while True:
         oMusic.replace('stage1_BGM.mp3')
 
     if stage >= 2:
-        #Starting height of graph. More minus --> graph go higher
+        # Starting height of graph. More minus --> graph go higher
         graphStartY = (WINDOW_HEIGHT / 2)-100
 
         coinPrev = coin[0]
@@ -349,7 +353,7 @@ while True:
             yPrevPosition = graphStartY - 150 + (coinPrevRatio * 500)
 
             pygame.draw.line(
-                window, (0,88,255), (prevX, yPrevPosition), (x, yNowPosition), 2)
+                window, (0,88,255), (prevX, yPrevPosition), (x, yNowPosition), 1.2)
 
             if coinPrev > coinNow:
                 oCoin.ySpeed = oCoin.ySpeed - 0.2
@@ -391,9 +395,9 @@ while True:
         stage = 3
         time0 = pygame.time.get_ticks()
 
-    # TODO 구름 리셋 
+    # TODO 구름 리셋
     if stage == 3:
-        if score < FAIL_SCORE: 
+        if score < FAIL_SCORE:
             oCloud.reset()
 #        time = pygame.time.get_ticks()
 #        print("time" + str(time) )
