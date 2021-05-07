@@ -155,7 +155,7 @@ def progress_bar(stage, score):
     bar_width = WINDOW_WIDTH - 400
     pygame.draw.rect(window, (255, 0, 0),
                      ((WINDOW_WIDTH / 2 - (bar_width / 2)), 30, bar_width, 20))
-    pygame.draw.rect(window, (0, 110, 30), ((
+    pygame.draw.rect(window, (0, 88, 255), ((
         WINDOW_WIDTH / 2 - (bar_width / 2)), 30, bar_width * (progress), 20))
 
 
