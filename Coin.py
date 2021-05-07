@@ -15,11 +15,10 @@ class Coin:
         self.windowHeight = windowHeight
         self.collision_time = 0  # store collision time
         self.path = path
-        print(f"{self.path}{coinType}.png")
 
         # store same coin image, should replace to display sprite sheets
         self.image = pygwidgets.Image(
-            window, (0, 0), f"{self.path}{coinType}.png")
+            window, (0, 0), "{}{}.png".format(str(self.path), coinType))
 
         # 이미지가 너무 커서 임시로 작게 만듬 (추후 해상도 낮춰서 적용)
         self.image.scale(10, scaleFromCenter=True)

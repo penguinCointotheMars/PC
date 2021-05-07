@@ -157,6 +157,7 @@ I didn't feel were needed for the students in my classes.
 
 
 """
+import io
 
 """
 ORIGINAL COMMENTS FROM AL SWEIGART ABOUT PYGBUTTON:
@@ -524,9 +525,9 @@ class TextButton(PygWidgetsButton):
 
     """
 
-    DEFAULT_FONT_NAME = None  # use Pygame default font
+    DEFAULT_FONT_NAME = pygame.font.get_default_font().encode().decode()  # use Pygame default font
     DEFAULT_FONT_SIZE = 20
-    PYGWIDGETS_FONT = pygame.font.Font(DEFAULT_FONT_NAME, DEFAULT_FONT_SIZE)
+    PYGWIDGETS_FONT = pygame.font.get_default_font().encode().decode()
     MINIMUM_WIDTH = 100
 
     def __init__(self, window, loc, text, width=None, height=40, textColor=PYGWIDGETS_BLACK, \
@@ -546,7 +547,7 @@ class TextButton(PygWidgetsButton):
         if (fontName == TextButton.DEFAULT_FONT_NAME) and (fontSize == TextButton.DEFAULT_FONT_SIZE):
             self.font = TextButton.PYGWIDGETS_FONT
         else:
-            self.font = pygame.font.SysFont(fontName, fontSize)
+            self.font = pygame.font.get_default_font().encode().decode()
 
         # create the text surface for up state of button (to get the size)
         textSurfaceUp = self.font.render(text, True, self.textColor, self.upColor)
@@ -914,9 +915,9 @@ class TextCheckBox(PygWidgetsCheckBox):
 
 
     """
-    DEFAULT_FONT_NAME = None # use pygame default font
+    DEFAULT_FONT_NAME = pygame.font.get_default_font().encode().decode() # use pygame default font
     DEFAULT_FONT_SIZE = 20
-    PYGWIDGETS_FONT = pygame.font.Font(DEFAULT_FONT_NAME, DEFAULT_FONT_SIZE)
+    PYGWIDGETS_FONT = pygame.font.get_default_font().encode().decode()
 
 
     def __init__(self, window, loc, text='', value=True, size=16, edgeColor=PYGWIDGETS_BLACK, insideColor=PYGWIDGETS_WHITE,\
@@ -932,7 +933,7 @@ class TextCheckBox(PygWidgetsCheckBox):
         # Create the button's surfaces.
 
         self.font = TextCheckBox.PYGWIDGETS_FONT
-        self.fontHeight = self.font.size('Anything')[1]  # returns a tuple of (width, height)
+        self.fontHeight = (20,20) # returns a tuple of (width, height)
 
         if text == '':
             actualWidth = size
@@ -1355,9 +1356,9 @@ class TextRadioButton(PygWidgetsRadioButton):
 
 
     """
-    DEFAULT_FONT_NAME = None # use pygame default font
+    DEFAULT_FONT_NAME = pygame.font.get_default_font().encode().decode() # use pygame default font
     DEFAULT_FONT_SIZE = 20
-    PYGWIDGETS_FONT = pygame.font.SysFont(DEFAULT_FONT_NAME, DEFAULT_FONT_SIZE)
+    PYGWIDGETS_FONT = pygame.font.get_default_font().encode().decode()
     CIRCLE_DIAMETER = 14
     CIRCLE_LINE_WIDTH = 2
     TEXT_OFFSET = 18
@@ -1372,7 +1373,7 @@ class TextRadioButton(PygWidgetsRadioButton):
 
         # set up to draw the different states of the radioButton
         self.font = TextRadioButton.PYGWIDGETS_FONT
-        self.fontHeight = self.font.size('Anything')[1]   # returns a tuple of (width, height)
+        self.fontHeight = (20,20)  # returns a tuple of (width, height)
 
         lineSurfaceBlack = self.font.render(text, True, PYGWIDGETS_BLACK)
         lineSurfaceGray = self.font.render(text, True, PYGWIDGETS_DISABLED_GRAY)
@@ -1570,7 +1571,7 @@ class DisplayText(PygWidget):
         self.window = window
         self.loc = loc
         self.text = None # special trick so that the call to setValue below will force the creation of the text image
-        self.font = pygame.font.SysFont(fontName, fontSize)
+        self.font = pygame.font.get_default_font().encode().decode()
         self.textColor = textColor
         self.backgroundColor = backgroundColor
         self.userHeight = height
@@ -1578,7 +1579,7 @@ class DisplayText(PygWidget):
         self.justified = justified
         self.textImage = None
 
-        self.fontHeight = self.font.size('Anything')[1]   # returns a tuple of (width, height)
+        self.fontHeight =  (20,20) # returns a tuple of (width, height)
         if (height is None) and (width is None):
             self.useSpecifiedArea = False
         else:
@@ -1748,7 +1749,7 @@ class InputText(PygWidget):
         self.window = window
         self.loc = loc
         self.text = value
-        self.font = pygame.font.SysFont(fontName, fontSize)
+        self.font = pygame.font.get_default_font().encode().decode()
         self.width = width
         self.focus = initialFocus
         self.textColor = textColor

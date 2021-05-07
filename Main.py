@@ -4,7 +4,6 @@ import time
 
 import requests
 
-import pygwidgets
 from Coin import *  # bring in the Coin class code
 from Music import *  # bring in the Music class code
 from Penguin import *  # bring in the Penguin class code
@@ -389,7 +388,7 @@ while True:
         waterRect = oWater.getRect()
         if basketRect.colliderect(objectRect) and oObject.collision_time == 0:
 
-            print(f'{oObject.Type} has collided with the Penguin')
+            print("{} has collided with the Penguin".format(oObject.Type))
 
             score += oObject.points
             oObject.collide(pygame.time.get_ticks())
