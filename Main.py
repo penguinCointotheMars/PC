@@ -67,6 +67,9 @@ oCarbon = pygwidgets.DisplayText(
 oStage = pygwidgets.DisplayText(
     window, ((WINDOW_WIDTH / 2 - 50), 10), '', fontSize=30)
 
+oPaused = pygwidgets.DisplayText(
+    window, ((WINDOW_WIDTH / 2 - 140), 340), 'PAUSED', fontSize=100,textColor=(100,100,100))
+
 # 5 - Initialize variables
 oPenguin = Penguin(window, WINDOW_WIDTH, WINDOW_HEIGHT,
                    PENGUIN_IMAGES_PATH, PENGUIN_SPEED, PENGUIN_HEIGHT)
@@ -89,6 +92,8 @@ coinFeatures = [["coin", COIN_POINT], ]
 # objectList : list of coins and clouds and items, etc... with cloud, item classes
 objectList = []
 oRestartButton = pygwidgets.TextButton(window, (5, 5), 'Restart')
+oPauseButton = pygwidgets.TextButton(window, (5, 50), 'Pause')
+oResumeButton = pygwidgets.TextButton(window, (5, 50), 'Resume')
 
 # constants
 score = 0
@@ -197,6 +202,21 @@ while True:
             oMusic.volume(0.3)
             oMusic.replace('stage1_BGM.mp3')  # Back to stage 1 music
             objectList.clear()
+            
+           #Pause Button
+           if oPauseButton.handleEvent(event):  # ckicked on the Pause button
+            oPaused.draw()
+            paused = True
+            oResumeButton.draw()
+            pygame.display.update()
+
+            while paused == True:
+                for event in pygame.event.get():
+                    if oResumeButton.handleEvent(event):
+                        paused = False
+                    if event.type == pygame.QUIT:
+                        pygame.quit()
+                        sys.exit()
 
 #    oDisplay.setValue('Score:' + str(round(score, 3)))
 
@@ -426,6 +446,7 @@ while True:
         oCloud.draw()
     oCarbon.draw()
     oRestartButton.draw()
+    oPauseButton.draw()
     oPenguin.draw()
     oWater.draw()
     oDisplay.draw()
