@@ -205,19 +205,19 @@ while True:
             objectList.clear()
 
            # Pause Button
-            if oPauseButton.handleEvent(event):  # ckicked on the Pause button
-                oPaused.draw()
-                paused = True
-                oResumeButton.draw()
-                pygame.display.update()
+        if oPauseButton.handleEvent(event):  # ckicked on the Pause button
+            oPaused.draw()
+            paused = True
+            oResumeButton.draw()
+            pygame.display.update()
 
-                while paused == True:
-                    for event in pygame.event.get():
-                        if oResumeButton.handleEvent(event):
-                            paused = False
-                        if event.type == pygame.QUIT:
-                            pygame.quit()
-                            sys.exit()
+            while paused == True:
+                for event in pygame.event.get():
+                    if oResumeButton.handleEvent(event):
+                        paused = False
+                    if event.type == pygame.QUIT:
+                        pygame.quit()
+                        sys.exit()
 
 #    oDisplay.setValue('Score:' + str(round(score, 3)))
 
