@@ -39,7 +39,7 @@ class Cloud():
         #    def cloudfill(self, carbonCloud):
         # now cloud is coming down with constant rate vs time (carbon emmision is almost constant)
         # NEED TO ADJUST THE OFFSET VALUE or reset the time
-        move_dy = (time - 50000) * 0.01
+        move_dy = (time - 70000) * 0.01
         if move_dy < self.height:
             print("time: " + str(time))
             self.y = 0 - self.height + move_dy - 50

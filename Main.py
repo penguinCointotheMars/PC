@@ -359,7 +359,7 @@ while True:
         print("score: " + str(score))
         score = score - float(carbon[carbonIndex]) * 0.005
         oCarbon.setValue('CO2:' + carbon[carbonIndex] + 'ppm')
-        oCarbon.draw()
+
         print("current carbon: " + carbon[carbonIndex])
         print("hej: " + str(float(carbon[carbonIndex]) * 0.01))
 #        carbonCloud += carbonCloud + float(carbon[carbonIndex]) * 0.001
@@ -406,6 +406,7 @@ while True:
 
     if stage >= 3:
         oCloud.draw()
+    oCarbon.draw()    
     oRestartButton.draw()
     oPenguin.draw()
     oWater.draw()
