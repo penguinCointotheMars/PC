@@ -1,7 +1,7 @@
 import pygame
 from pygame.locals import *
 import pygwidgets
-
+import math
 
 # Cloud class
 class Cloud():
@@ -35,17 +35,24 @@ class Cloud():
         self.image1.setLoc((self.x1, self.y))
 #        self.image2.setLoc((self.x2, self.y))
 
+
+
     def cloudfill(self, time):
         #    def cloudfill(self, carbonCloud):
         # now cloud is coming down with constant rate vs time (carbon emmision is almost constant)
         # NEED TO ADJUST THE OFFSET VALUE or reset the time
+
+        t = pygame.time.get_ticks() % 3600  # scale and loop time
+        ysin = math.sin(t/1800.0 * math.pi) * 4  # scale sine wave1
+
         move_dy = (time - 100000) * 0.01
         if move_dy < self.halfHeight:
             print("time: " + str(time))
-            self.y = 0 - self.height + move_dy - 100
+            self.y = 0 - self.height + move_dy - 100 
         else:
             # add sine wave movement?
-            self.y = -100 - self.halfHeight
+            self.y = -100 - self.halfHeight + ysin
+        
 
       # update index for background image according to the score (OLD)
 #        if score > 400:

@@ -325,7 +325,7 @@ while True:
             yPrevPosition = graphStartY - 150 + (coinPrevRatio * 200)
 
             pygame.draw.line(
-                window, BLACK, (prevX, yPrevPosition), (x, yNowPosition), 2)
+                window, BLACK, (prevX, yPrevPosition), (x, yNowPosition), 4)
 
             if coinPrev > coinNow:
                 oCoin.ySpeed = oCoin.ySpeed - 0.2
