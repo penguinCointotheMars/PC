@@ -41,8 +41,8 @@ COIN_POINT = 15  # point per coin, can be changed with coin price
 OBJECT_NUMBERS = 10  # the number of dropping objects
 COLLISION_TIME_DELAY = 50
 
-STAGE_1 = 100  # Scores to pass stage 1
-STAGE_2 = 200  # Scores to pass stage 2
+STAGE_1 = 300  # Scores to pass stage 1
+STAGE_2 = 500  # Scores to pass stage 2
 STAGE_3 = 1000  # Scores to pass stage 3
 STAGE_4 = 6000
 WIN_GOAL = 2000  # Scores to win
