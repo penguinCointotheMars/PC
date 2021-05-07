@@ -48,7 +48,7 @@ STAGE_4 = 6000
 WIN_GOAL = 2000  # Scores to win
 
 DEFAULT_REDUCE_RATE = 0.1
-
+pygame.font.init()
 # 3 - Initialize the world
 pygame.init()
 window = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
@@ -405,7 +405,7 @@ while True:
 
     if stage >= 3:
         oCloud.draw()
-    oCarbon.draw()    
+    oCarbon.draw()
     oRestartButton.draw()
     oPenguin.draw()
     oWater.draw()

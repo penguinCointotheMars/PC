@@ -1,1 +1,0 @@
-([('game', '/Users/jihomoon/PC/dist/game', 'EXECUTABLE')],)
