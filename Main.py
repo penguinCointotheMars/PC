@@ -56,7 +56,7 @@ pygame.init()
 window = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
 clock = pygame.time.Clock()  # set the speed (frames per second)
 pygame.display.set_caption('Penguin Coin to the moon!!')  # window name
-icon = pygame.image.load('resources/stage_images/Win.png')
+icon = pygame.image.load('resources/stage_images/coin_icon.png')
 pygame.display.set_icon(icon)
 
 # 4 - Load assets: image(s), sounds, etc.
