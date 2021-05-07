@@ -326,7 +326,8 @@ while True:
         oMusic.replace('stage1_BGM.mp3')
 
     if stage >= 2:
-        graphStartY = WINDOW_HEIGHT / 2
+        #Starting height of graph. More minus --> graph go higher
+        graphStartY = (WINDOW_HEIGHT / 2)-100
 
         coinPrev = coin[0]
 
