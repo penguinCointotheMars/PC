@@ -41,7 +41,7 @@ PENGUIN_SPEED_2 = 12
 PENGUIN_SPEED_3 = 9
 PENGUIN_HEIGHT = 200
 COIN_POINT = 30  # point per coin, can be changed with coin price
-COIN_SPEED_LIMIT = 50
+COIN_SPEED_LIMIT = 50 * 1.3
 OBJECT_NUMBERS = 5  # the number of dropping objects
 COLLISION_TIME_DELAY = 50
 
