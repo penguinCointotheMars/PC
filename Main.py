@@ -35,11 +35,12 @@ CLOUD_IMAGES_PATH = 'resources/cloud_images/'
 COIN_IMAGES_PATH = 'resources/coin_images/'
 
 # constants to play
-PENGUIN_SPEED = 12  # Penguin's speed
-PENGUIN_SPEED_2 = 9
-PENGUIN_SPEED_3 = 6
+PENGUIN_SPEED = 24  # Penguin's speed
+PENGUIN_SPEED_STAGE_2_3 = 24
+PENGUIN_SPEED_2 = 12
+PENGUIN_SPEED_3 = 9
 PENGUIN_HEIGHT = 200
-COIN_POINT = 15  # point per coin, can be changed with coin price
+COIN_POINT = 30  # point per coin, can be changed with coin price
 COIN_SPEED_LIMIT = 50
 OBJECT_NUMBERS = 5  # the number of dropping objects
 COLLISION_TIME_DELAY = 50
@@ -51,8 +52,8 @@ STAGE_3 = 1000  # Scores to pass stage 3
 STAGE_4 = 6000
 WIN_GOAL = 2000  # Scores to win
 
-STAGE1_REDUCE_RATE = 0.3
-STAGE2_REDUCE_RATE = 0.5
+STAGE1_REDUCE_RATE = 0.9  # 0.3 -> 0.9
+STAGE2_REDUCE_RATE = 0.9
 STAGE3_REDUCE_RATE = 0.02
 
 reduce_rate = STAGE1_REDUCE_RATE
