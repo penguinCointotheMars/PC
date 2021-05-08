@@ -63,56 +63,76 @@ class Water:
         t = pygame.time.get_ticks() % 3600  # scale and loop time
 #        print('t'+str(t))
         ysin1 = -math.sin(t/450.0 * math.pi) * 10 + self.windowHeight - \
-            self.height + 23    # scale sine wave
+            self.height + 20    # scale sine wave
 #        ysin1 = int(ysin1)                             # needs to be int
         (self.windowWidth - self.width)/2
 
-        xsin1 = math.sin((t/600.0 - 0.5) * math.pi) * 13 + (self.windowWidth -
+        xsin1 = math.sin((t/600.0 - 0.5) * math.pi) * 15 + (self.windowWidth -
                                                             self.width)/2     # scale sine wave
 #        xsin1 = int(xsin1)
 
-        ysin2 = math.sin(t/600.0 * math.pi) * 8 + self.windowHeight - \
-            self.height + 111    # scale sine wave2
+        ysin2 = math.sin(t/600.0 * math.pi) * 10 + self.windowHeight - \
+            self.height - 80    # scale sine wave2
 #        ysin2 = int(ysin2)                             # needs to be int
         xsin2 = (1-math.cos(t/900.0 * math.pi)) * 13 + (self.windowWidth -
                                                         self.width)/2     # scale sine wave
 #        xsin2 = int(xsin2)
 
-        ysin3 = (math.sin(t/900.0 * math.pi)) * 10 + self.windowHeight - \
-            self.height + 212    # scale sine wave3
+        ysin3 = (1-math.cos(t/900.0 * math.pi)) * 10 + self.windowHeight - \
+            self.height - 180    # scale sine wave3
 #        ysin3 = int(ysin3)                             # needs to be int
         xsin3 = math.sin(t/1200.0 * math.pi) * 11 + (self.windowWidth -
                                                      self.width)/2     # scale sine wave
 #        xsin3 = int(xsin3)
 
         ysin4 = math.sin(t/1200.0 * math.pi) * 10 + self.windowHeight - \
-            self.height + 310    # scale sine wave3
+            self.height - 270    # scale sine wave3
 #        ysin4 = int(ysin4)                             # needs to be int
-        xsin4 = (1-math.cos(t/1800.0 * math.pi)) * 15 + (self.windowWidth -
+        xsin4 = (1-math.cos(t/1800.0 * math.pi)) * 9 + (self.windowWidth -
                                                         self.width)/2     # scale sine wave
 #        xsin4 = int(xsin4)
 
         yout = self.windowHeight + 200
 #        print("sin " + str(math.sin(t/360)))
 
-        if score < 0:
-            self.y1 = 0.76 * score + ysin1
-            self.y2 = 0.76 *score + ysin2
-            self.y3 = 0.76 *score + ysin3
-            self.y4 = 0.76 *score + ysin4
+        if score < self.ml3:
+            self.y1 = ysin4
+            self.y2 = ysin3
+            self.y3 = ysin2
+            self.y4 = ysin1
             self.x1 = xsin4
             self.x2 = xsin3
             self.x3 = xsin2
             self.x4 = xsin1
         else:
-            self.y1 = ysin1
-            self.y2 = ysin2
-            self.y3 = ysin3
-            self.y4 = ysin4
-            self.x1 = xsin4
-            self.x2 = xsin3
-            self.x3 = xsin2
-            self.x4 = xsin1
+            if score <= self.ml2 and score > self.ml3:
+                self.y1 = ysin3
+                self.y2 = ysin2
+                self.y3 = ysin1
+                self.y4 = yout
+                self.x1 = xsin3
+                self.x2 = xsin2
+                self.x3 = xsin1
+                self.x4 = xsin1
+            else:
+                if score < 0:
+                    self.y1 = ysin2
+                    self.y2 = ysin1
+                    self.y3 = yout
+                    self.y4 = yout
+                    self.x1 = xsin2
+                    self.x2 = xsin1
+                    self.x3 = xsin1
+                    self.x4 = xsin1
+                else:
+                    self.y1 = ysin1
+                    self.y2 = yout
+                    self.y3 = yout
+                    self.y4 = yout
+                    self.x1 = xsin1
+                    self.x2 = xsin1
+                    self.x3 = xsin1
+                    self.x4 = xsin1
 
         self.image1.setLoc((self.x1, self.y1))
         self.image2.setLoc((self.x2, self.y2))
