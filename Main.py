@@ -52,8 +52,8 @@ STAGE_3 = 1000  # Scores to pass stage 3
 STAGE_4 = 6000
 WIN_GOAL = 2000  # Scores to win
 
-STAGE1_REDUCE_RATE = 0.9 * 1.5  # 0.3 -> 0.9
-STAGE2_REDUCE_RATE = 0.9 * 1.5
+STAGE1_REDUCE_RATE = 0.9 * 1.2  # 0.3 -> 0.9
+STAGE2_REDUCE_RATE = 0.9 * 1.2
 STAGE3_REDUCE_RATE = 0.02
 
 reduce_rate = STAGE1_REDUCE_RATE
