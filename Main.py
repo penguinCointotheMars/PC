@@ -41,7 +41,7 @@ PENGUIN_SPEED_2 = 12
 PENGUIN_SPEED_3 = 9
 PENGUIN_HEIGHT = 200
 COIN_POINT = 30  # point per coin, can be changed with coin price
-COIN_SPEED_LIMIT = 50 * 1.2 * 1.2
+COIN_SPEED_LIMIT = 50 * 1.2 * 1.2 * 1.5
 OBJECT_NUMBERS = 5  # the number of dropping objects
 COLLISION_TIME_DELAY = 50
 
@@ -54,7 +54,7 @@ WIN_GOAL = 2000  # Scores to win
 
 STAGE1_REDUCE_RATE = 0.9 * 1.1
 STAGE2_REDUCE_RATE = 0.9 * 1.3 * 1.3 * 1.3 * 1.3  # previous 1.3
-STAGE3_REDUCE_RATE = 0.02 * 4 * 1.6 * 1.4  # previous 2
+STAGE3_REDUCE_RATE = 0.02 * 4 * 1.6 * 1.4 * 1.4  # previous 2
 
 reduce_rate = STAGE1_REDUCE_RATE
 
