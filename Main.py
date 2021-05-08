@@ -51,7 +51,14 @@ STAGE_3 = 1000  # Scores to pass stage 3
 STAGE_4 = 6000
 WIN_GOAL = 2000  # Scores to win
 
-DEFAULT_REDUCE_RATE = 0.1
+STAGE1_REDUCE_RATE = 0.3
+STAGE2_REDUCE_RATE = 0.5
+STAGE3_REDUCE_RATE = 0.02
+
+reduce_rate = STAGE1_REDUCE_RATE
+
+bar_width = WINDOW_WIDTH - 400
+
 pygame.font.init()
 # 3 - Initialize the world
 pygame.init()
@@ -62,14 +69,16 @@ icon = pygame.image.load('resources/stage_images/coin_icon.png')
 pygame.display.set_icon(icon)
 
 # 4 - Load assets: image(s), sounds, etc.
+# (WINDOW_WIDTH / 2 - (bar_width / 2)
+
 oDisplay = pygwidgets.DisplayText(
-    window, (WINDOW_WIDTH - 170, 30), '', fontSize=40)
+    window, ((WINDOW_WIDTH / 2 + 185), 51), '', fontSize=25, textColor=(255, 255, 255))
 
 oCarbon = pygwidgets.DisplayText(
-    window, (5, 100), '', fontSize=40)
+    window, ((WINDOW_WIDTH / 2 + 32), 15), '', fontSize=30)
 
 oStage = pygwidgets.DisplayText(
-    window, ((WINDOW_WIDTH / 2 - 50), 15), '', fontSize=30)
+    window, ((WINDOW_WIDTH / 2 - 40), 15), '', fontSize=30)
 
 oPaused = pygwidgets.DisplayText(
     window, ((WINDOW_WIDTH / 2 - 140), 340), 'PAUSED', fontSize=100, textColor=(100, 100, 100))
@@ -157,7 +166,7 @@ def progress_bar(stage, score):
         progress = (score - FAIL_SCORE) / (STAGE_4 - FAIL_SCORE)
         oStage.setValue('Are we in Moon yet?')
     # Progress bars
-    bar_width = WINDOW_WIDTH - 400
+
     pygame.draw.rect(window, (255, 0, 0),
                      ((WINDOW_WIDTH / 2 - (bar_width / 2)), 50, bar_width, 20))
     pygame.draw.rect(window, (0, 88, 255), ((
@@ -184,7 +193,14 @@ while True:
     frameCounter = (frameCounter + 1) % 1200
     carbonCounter = carbonCounter + 1
 
-    score -= DEFAULT_REDUCE_RATE
+    if stage == 1:
+        reduce_rate = STAGE1_REDUCE_RATE
+    elif stage == 2:
+        reduce_rate = STAGE2_REDUCE_RATE
+    else:
+        reduce_rate = STAGE3_REDUCE_RATE
+
+    score -= reduce_rate
 
     if carbonCounter > 60:
         carbonIndex = (carbonIndex+1) % len(carbon)
@@ -409,7 +425,7 @@ while True:
         oCloud.cloudfill(time)
         print("score: " + str(score))
         score = round(score - float(carbon[carbonIndex]) * 0.005, 2)
-        oCarbon.setValue('CO2:' + carbon[carbonIndex] + 'ppm')
+        oCarbon.setValue('(CO2 :' + carbon[carbonIndex] + ' ppm)')
 
 #        print("current carbon: " + carbon[carbonIndex])
 #        print("hej: " + str(float(carbon[carbonIndex]) * 0.01))
@@ -464,8 +480,8 @@ while True:
     oPauseButton.draw()
     oPenguin.draw()
     oWater.draw()
-    oDisplay.draw()
     progress_bar(stage, score)
+    oDisplay.draw()
     oStage.draw()
 
     # 11 - Update the screen
