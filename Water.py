@@ -89,7 +89,7 @@ class Water:
             self.height + 310    # scale sine wave3
 #        ysin4 = int(ysin4)                             # needs to be int
         xsin4 = (1-math.cos(t/1800.0 * math.pi)) * 15 + (self.windowWidth -
-                                                        self.width)/2     # scale sine wave
+                                                         self.width)/2     # scale sine wave
 #        xsin4 = int(xsin4)
 
         yout = self.windowHeight + 200
@@ -114,7 +114,7 @@ class Water:
                 self.x2 = xsin3
                 self.x3 = xsin2
                 self.x4 = xsin1
-            else:    
+            else:
                 self.y1 = ysin1
                 self.y2 = ysin2
                 self.y3 = ysin3
