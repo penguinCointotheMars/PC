@@ -35,7 +35,7 @@ CLOUD_IMAGES_PATH = 'resources/cloud_images/'
 COIN_IMAGES_PATH = 'resources/coin_images/'
 
 # constants to play
-PENGUIN_SPEED = 24  # Penguin's speed
+PENGUIN_SPEED = 17   # Penguin's speed 24 -> 17
 PENGUIN_SPEED_STAGE_2_3 = 24
 PENGUIN_SPEED_2 = 12
 PENGUIN_SPEED_3 = 9
@@ -53,8 +53,8 @@ STAGE_4 = 6000
 WIN_GOAL = 2000  # Scores to win
 
 STAGE1_REDUCE_RATE = 0.9 * 1.1
-STAGE2_REDUCE_RATE = 0.9 * 1.3  # previous 1.2
-STAGE3_REDUCE_RATE = 0.02 * 4 * 1.3  # previous 2
+STAGE2_REDUCE_RATE = 0.9 * 1.3 * 1.3 * 1.3  # previous 1.3
+STAGE3_REDUCE_RATE = 0.02 * 4 * 1.6  # previous 2
 
 reduce_rate = STAGE1_REDUCE_RATE
 
