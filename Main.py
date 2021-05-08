@@ -63,10 +63,10 @@ pygame.display.set_icon(icon)
 
 # 4 - Load assets: image(s), sounds, etc.
 oDisplay = pygwidgets.DisplayText(
-    window, (WINDOW_WIDTH - 160, 30), '', fontSize=40)
+    window, (WINDOW_WIDTH - 170, 30), '', fontSize=40)
 
 oCarbon = pygwidgets.DisplayText(
-    window, (5, 100), '', fontSize=30)
+    window, (5, 100), '', fontSize=40)
 
 oStage = pygwidgets.DisplayText(
     window, ((WINDOW_WIDTH / 2 - 50), 15), '', fontSize=30)
