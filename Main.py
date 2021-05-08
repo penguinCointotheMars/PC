@@ -36,8 +36,8 @@ COIN_IMAGES_PATH = 'resources/coin_images/'
 
 # constants to play
 PENGUIN_SPEED = 12  # Penguin's speed
-PENGUIN_SPEED_2 = 10
-PENGUIN_SPEED_3 = 8
+PENGUIN_SPEED_2 = 9
+PENGUIN_SPEED_3 = 6
 PENGUIN_HEIGHT = 200
 COIN_POINT = 15  # point per coin, can be changed with coin price
 COIN_SPEED_LIMIT = 50
@@ -76,7 +76,8 @@ oPaused = pygwidgets.DisplayText(
 
 # 5 - Initialize variables
 oPenguin = Penguin(window, WINDOW_WIDTH, WINDOW_HEIGHT,
-                   PENGUIN_IMAGES_PATH, PENGUIN_SPEED, PENGUIN_HEIGHT)
+                   PENGUIN_IMAGES_PATH, PENGUIN_SPEED, PENGUIN_HEIGHT, MELTING_LEVEL_1, MELTING_LEVEL_2, MELTING_LEVEL_3,
+                   PENGUIN_SPEED, PENGUIN_SPEED_2, PENGUIN_SPEED_3)
 oWater = Water(window, WINDOW_WIDTH, WINDOW_HEIGHT, WATER_IMAGES_PATH,
                MELTING_LEVEL_1, MELTING_LEVEL_2, MELTING_LEVEL_3)
 
@@ -351,11 +352,11 @@ while True:
             coinNowRatio = abs(coinNow - coinMin) / abs(coinMax - coinMin)
 
             # linear mapping
-            yNowPosition = graphStartY - 150 + (coinNowRatio * 200)
-            yPrevPosition = graphStartY - 150 + (coinPrevRatio * 200)
+            yNowPosition = graphStartY - 150 + (coinNowRatio * 500)
+            yPrevPosition = graphStartY - 150 + (coinPrevRatio * 500)
 
             pygame.draw.line(
-                window, (0, 110, 30), (prevX, yPrevPosition), (x, yNowPosition), 4)
+                window, (0, 88, 255), (prevX, yPrevPosition), (x, yNowPosition), 1)
 
             if coinPrev > coinNow:
                 oCoin.ySpeed = oCoin.ySpeed - 0.2
@@ -425,10 +426,10 @@ while True:
     keyPressedList = pygame.key.get_pressed()
 
     if keyPressedList[pygame.K_LEFT]:  # moving left
-        oPenguin.move('left')
+        oPenguin.move('left', score)
 
     if keyPressedList[pygame.K_RIGHT]:  # moving right
-        oPenguin.move('right')
+        oPenguin.move('right', score)
 
     # 8 - Do any "per frame" actions
 
