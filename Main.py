@@ -40,8 +40,10 @@ PENGUIN_SPEED_2 = 10
 PENGUIN_SPEED_3 = 8
 PENGUIN_HEIGHT = 200
 COIN_POINT = 15  # point per coin, can be changed with coin price
+COIN_SPEED_LIMIT = 50
 OBJECT_NUMBERS = 5  # the number of dropping objects
 COLLISION_TIME_DELAY = 50
+
 
 STAGE_1 = 300  # Scores to pass stage 1
 STAGE_2 = 500  # Scores to pass stage 2
@@ -359,6 +361,8 @@ while True:
                 oCoin.ySpeed = oCoin.ySpeed - 0.2
             else:
                 oCoin.ySpeed = oCoin.ySpeed + 0.2
+
+            oCoin.ySpeed = oCoin.ySpeed if oCoin.ySpeed <= 50 else 50
 
             coinPrev = coinNow
             prevX = x
