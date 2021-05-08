@@ -96,10 +96,10 @@ class Water:
 #        print("sin " + str(math.sin(t/360)))
 
         if score < 0:
-            self.y1 = 0.76 * score + ysin1
-            self.y2 = 0.76 *score + ysin2
-            self.y3 = 0.76 *score + ysin3
-            self.y4 = 0.76 *score + ysin4
+            self.y1 = 1 * score + ysin1
+            self.y2 = 1 * score + ysin2
+            self.y3 = 1 * score + ysin3
+            self.y4 = 1 * score + ysin4
             self.x1 = xsin4
             self.x2 = xsin3
             self.x3 = xsin2
