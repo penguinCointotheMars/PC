@@ -95,7 +95,7 @@ class Water:
         yout = self.windowHeight + 200
 #        print("sin " + str(math.sin(t/360)))
 
-        if score < 0:
+        if -290 <= score < 0:
             self.y1 = 1 * score + ysin1
             self.y2 = 1 * score + ysin2
             self.y3 = 1 * score + ysin3
@@ -105,14 +105,24 @@ class Water:
             self.x3 = xsin2
             self.x4 = xsin1
         else:
-            self.y1 = ysin1
-            self.y2 = ysin2
-            self.y3 = ysin3
-            self.y4 = ysin4
-            self.x1 = xsin4
-            self.x2 = xsin3
-            self.x3 = xsin2
-            self.x4 = xsin1
+            if score < -290:
+                self.y1 = -290 + ysin1
+                self.y2 = -290 + ysin2
+                self.y3 = -290 + ysin3
+                self.y4 = -290 + ysin4
+                self.x1 = xsin4
+                self.x2 = xsin3
+                self.x3 = xsin2
+                self.x4 = xsin1
+            else:    
+                self.y1 = ysin1
+                self.y2 = ysin2
+                self.y3 = ysin3
+                self.y4 = ysin4
+                self.x1 = xsin4
+                self.x2 = xsin3
+                self.x3 = xsin2
+                self.x4 = xsin1
 
         self.image1.setLoc((self.x1, self.y1))
         self.image2.setLoc((self.x2, self.y2))
